@@ -24,6 +24,29 @@ EVALUATOR_DOMAINS = {
 _ZERO_WIDTH = re.compile(r"[​-‏‪-‮⁠-⁤﻿]")
 
 
+# Text that is talking to an AI rather than to a human reader.
+INJECTION_PATTERNS = [
+    r"ignore (all |any |the )?(previous|prior|above|earlier|your) (instructions|rules|prompts?)",
+    r"disregard (all |any |the )?(previous|prior|above|your) (instructions|rules)",
+    r"\b(system|developer) (prompt|message|instructions?)\b",
+    r"\b(ai|llm|language model|chatbot|gpt)s?\b[^.]{0,40}\b(must|should|need to|are instructed to)\b",
+    r"\byou are (now )?(an?|the) [a-z ]{0,30}(assistant|agent|model)\b",
+    r"\b(reveal|print|show|output)\b[^.]{0,30}\b(api key|prompt|instructions|secret)",
+    r"\bnew instructions\b",
+]
+_INJECTION_RE = [re.compile(p, re.I) for p in INJECTION_PATTERNS]
+
+
+def detect_injection(text: str) -> list[str]:
+    """Return the snippets of text that look like instructions aimed at an AI."""
+    hits = []
+    for rx in _INJECTION_RE:
+        m = rx.search(text)
+        if m:
+            hits.append(text[max(0, m.start() - 20): m.end() + 20])
+    return hits
+
+
 class FetchError(Exception):
     pass
 
