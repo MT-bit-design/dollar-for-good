@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dollar for Good · Charity Impact Tool</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">◐</span>
+      <div>
+        <h1>Dollar for Good</h1>
+        <p class="tag">How much good does each dollar do? Sourced numbers, plain math, no guesses.</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="donor" role="tab">Compare charities</button>
+      <button class="tab" data-tab="funder" role="tab">Check my portfolio</button>
+      <button class="tab" data-tab="method" role="tab">How it works</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- DONOR VIEW -->
+    <section id="tab-donor" class="panel">
+      <h2 class="step">1. Pick a cause</h2>
+      <div id="cause-cards" class="cause-cards"></div>
+
+      <div id="cause-detail" hidden>
+        <div class="bench card">
+          <div>
+            <div class="eyebrow">Benchmark for this cause</div>
+            <div class="bench-value" id="bench-value"></div>
+            <div class="bench-label" id="bench-label"></div>
+          </div>
+          <div class="bench-src" id="bench-src"></div>
+        </div>
+
+        <h2 class="step">2. Charities ranked by good per dollar</h2>
+        <p class="hint" id="rank-hint"></p>
+        <div class="table-wrap"><table class="rank" id="rank-table"></table></div>
+
+        <div id="nc-wrap">
+          <h3>Can't compute yet</h3>
+          <p class="hint">These charities are listed, not ranked. We could not find a sourced number in this cause's unit, and we never guess.</p>
+          <ul id="nc-list" class="nc-list"></ul>
+        </div>
+      </div>
+
+      <div class="card research" id="research-card">
+        <h2 class="step">Research a charity that isn't listed</h2>
+        <p class="hint">Our research agent reads the charity's website (and known evaluators), quotes the figure it finds, and our code checks that the quote is really on the page before doing the math.</p>
+        <form id="research-form" class="row-form">
+          <label>Charity name <input name="name" required maxlength="120" placeholder="e.g. One Acre Fund"></label>
+          <label>Website <input name="website" required maxlength="300" placeholder="https://..."></label>
+          <label>Cause
+            <select name="cause">
+              <option value="">Let the agent decide</option>
+              <option value="health">Health</option>
+              <option value="poverty">Poverty and cash transfers</option>
+              <option value="education">Education</option>
+              <option value="climate">Climate</option>
+            </select>
+          </label>
+          <button class="primary" type="submit">Research</button>
+        </form>
+        <div id="research-out"></div>
+      </div>
+    </section>
+
+    <!-- FUNDER VIEW -->
+    <section id="tab-funder" class="panel" hidden>
+      <h2 class="step">Upload the charities you fund</h2>
+      <p class="hint">A CSV with columns <code>name, cause, website, amount_granted_usd, cost_usd, outcome_amount</code>. Only <code>name</code> is required. If you have your own cost and outcome numbers, we use them; otherwise we use our sourced table, then the research agent (up to 10 rows per upload).</p>
+      <div class="upload-row">
+        <label class="file-btn">Choose CSV<input type="file" id="csv-file" accept=".csv,text/csv"></label>
+        <button class="primary" id="csv-go" disabled>Check portfolio</button>
+        <button id="sample-go">Try the sample portfolio</button>
+        <a href="/api/sample.csv" download="sample_portfolio.csv">Download sample CSV</a>
+        <span id="csv-name" class="hint"></span>
+      </div>
+      <div id="portfolio-out"></div>
+    </section>
+
+    <!-- METHOD -->
+    <section id="tab-method" class="panel" hidden>
+      <div class="card prose">
+        <h2>How the numbers work</h2>
+        <table class="method">
+          <thead><tr><th>Cause</th><th>Unit</th><th>Formula</th><th>Better is</th></tr></thead>
+          <tbody>
+            <tr><td>Health</td><td>Cost per DALY averted</td><td>cost ÷ DALYs averted</td><td>lower</td></tr>
+            <tr><td>Poverty and cash transfers</td><td>Income gained per dollar</td><td>income gained ÷ cost</td><td>higher</td></tr>
+            <tr><td>Education</td><td>Cost per extra year of learning</td><td>cost ÷ learning years</td><td>lower</td></tr>
+            <tr><td>Climate</td><td>Cost per tonne CO₂e</td><td>cost ÷ tonnes averted</td><td>lower</td></tr>
+          </tbody>
+        </table>
+        <p><b>“× the benchmark”</b> always means “how many times as much good per dollar as the benchmark.” Above 1× beats the bar.</p>
+        <h3>Rules we never break</h3>
+        <ul>
+          <li>Every number has a source link, a date, and the exact quote it came from. If the number isn't in its own quote, we don't use it.</li>
+          <li>If we can't source a number, it is marked missing. We never guess.</li>
+          <li>All math is done by plain code. The AI model only finds and quotes; it never calculates.</li>
+          <li>Website text is untrusted. The agent is told to ignore any instructions inside pages, and our code rejects any quote that isn't word-for-word on a page it actually fetched.</li>
+          <li>Each research run has hard caps on model calls, page fetches and tokens, plus a daily token budget.</li>
+        </ul>
+        <h3>Read the caveats</h3>
+        <p>Estimates come from different evaluators, years and methods. Climate advocacy estimates are highly uncertain expected values. Use the ranking as a starting point for questions, not a final verdict.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot" id="foot"></footer>
+  <script src="/app.js"></script>
+</body>
+</html>
