@@ -41,11 +41,16 @@ os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
 MODEL_NAME = "gpt-6-luna"
 PORTKEY_BASE_URL = "https://api.portkey.ai/v1"
 
-# Price per 1M tokens (USD), used only for the cost display. Set from the course's
-# published rates; edit here if they change.
-PRICE_PER_M_INPUT = float(os.getenv("PRICE_PER_M_INPUT", "1.25"))
-PRICE_PER_M_CACHED_INPUT = float(os.getenv("PRICE_PER_M_CACHED_INPUT", "0.125"))
-PRICE_PER_M_OUTPUT = float(os.getenv("PRICE_PER_M_OUTPUT", "10.0"))
+# Price per 1M tokens (USD), used only for the cost display: OpenAI's published list prices
+# for gpt-6-luna, standard tier, prompts up to 272K tokens. Sources (accessed 2026-10-26):
+#   OpenAI API pricing   https://developers.openai.com/api/docs/pricing
+#   eesel.ai             https://www.eesel.ai/blog/gpt-6-luna-pricing
+#   AnotherWrapper       https://anotherwrapper.com/llm-pricing/gpt-6-luna  (input and output only)
+# The course key is billed through Portkey, so its actual billing may differ.
+PRICE_SOURCE = "OpenAI's published list prices for GPT-6 Luna (accessed 2026-10-26)"
+PRICE_PER_M_INPUT = float(os.getenv("PRICE_PER_M_INPUT", "0.10"))
+PRICE_PER_M_CACHED_INPUT = float(os.getenv("PRICE_PER_M_CACHED_INPUT", "0.01"))
+PRICE_PER_M_OUTPUT = float(os.getenv("PRICE_PER_M_OUTPUT", "0.50"))
 
 # Guards so nothing loops forever or burns the budget.
 MAX_OUTPUT_TOKENS = 3_000          # per model reply, reasoning included

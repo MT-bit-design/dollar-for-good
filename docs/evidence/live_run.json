@@ -1,0 +1,60 @@
+{
+ "charity": "One Acre Fund",
+ "website": "https://oneacrefund.org",
+ "cause": "poverty",
+ "status": "computed",
+ "inputs": {
+  "cost_usd": 1.0,
+  "outcome_amount": 5.7,
+  "outcome_unit": "usd_income_gained"
+ },
+ "result": {
+  "ok": true,
+  "value": 5.7,
+  "metric": "usd_income_per_usd",
+  "reason": null
+ },
+ "usage": {
+  "input_tokens": 9050,
+  "cached_input_tokens": 5539,
+  "output_tokens": 192,
+  "requests": 4,
+  "tool_calls": 3,
+  "seconds": 6.1,
+  "cost_usd": 0.000502
+ },
+ "trace": [
+  {
+   "step": "fetch",
+   "url": "https://oneacrefund.org",
+   "ok": true,
+   "chars": 4846,
+   "truncated": false,
+   "seconds": 0.7,
+   "injection_flagged": false
+  },
+  {
+   "step": "fetch",
+   "url": "https://oneacrefund.org/impact/financial-impact-and-sroi-results",
+   "ok": false,
+   "error": "The page could not be opened."
+  },
+  {
+   "step": "fetch",
+   "url": "https://oneacrefund.org/impact",
+   "ok": true,
+   "chars": 4316,
+   "truncated": false,
+   "seconds": 1.1,
+   "injection_flagged": false
+  },
+  {
+   "step": "verify",
+   "ok": true,
+   "reason": "Quote and numbers found on page."
+  }
+ ],
+ "quote": "Efficiency Social Return on Investment: $5.7 new farm profits created for every $1 of donor investment.",
+ "source_url": "https://oneacrefund.org/impact",
+ "_about": "The live research run shown in report Figure 3 (screenshot docs/screenshots/research_run.png), saved from the app's answer cache on 2026-10-26. Token counts are as measured; cost_usd was computed by the app at the rates in app/config.py."
+}

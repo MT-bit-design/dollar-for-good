@@ -113,7 +113,7 @@
     <img class="shot" src="{{img:crop_donor}}">
     <div>
       <img class="shot" src="{{img:research_run}}">
-      <p class="small">A live run for <b>One Acre Fund</b>: 3 pages opened (one missing), the checked quote, <b>$5.70 per $1 = 2.3× the cash benchmark</b>. 9,050 input tokens (5,539 cached), 192 output, 7.3 s.</p>
+      <p class="small">A live run for <b>One Acre Fund</b>: 3 pages opened (one missing), the checked quote, <b>$5.70 per $1 = 2.3× the cash benchmark</b>. {{cost:live_input}} input tokens ({{cost:live_cached}} cached), {{cost:live_output}} output, {{cost:live_seconds}} s, {{cost:live_cost}}.</p>
     </div>
   </div>
 </section>
@@ -138,21 +138,21 @@
 <section>
   <h2>Cost to run</h2>
   <div class="grid4">
-    <div class="card soft"><div class="k">4,116</div><div class="l">input tokens per research run (measured)</div></div>
-    <div class="card soft"><div class="k">74%</div><div class="l">of input cached (fixed prompt first)</div></div>
-    <div class="card soft"><div class="k">132</div><div class="l">output tokens per run</div></div>
+    <div class="card soft"><div class="k">{{cost:ship_input}}</div><div class="l">input tokens per research run (measured)</div></div>
+    <div class="card soft"><div class="k">{{cost:cached_share}}</div><div class="l">of input cached (fixed prompt first)</div></div>
+    <div class="card soft"><div class="k">{{cost:ship_output}}</div><div class="l">output tokens per run, {{cost:ship_cost}} per run</div></div>
     <div class="card soft"><div class="k">0</div><div class="l">tokens to browse listed charities or repeat a lookup</div></div>
   </div>
   <div class="grid2" style="margin-top:18px">
     <table>
       <tr><th></th><th>runs/mo</th><th>cost/mo*</th></tr>
-      <tr><td>1 foundation user</td><td>14</td><td>$0.04</td></tr>
-      <tr><td>100 users</td><td>1,400</td><td>$4.23</td></tr>
-      <tr><td>10,000 users</td><td>140,000</td><td>$423</td></tr>
+      <tr><td>1 foundation user</td><td>{{cost:funder_runs}}</td><td>{{cost:funder_month}}</td></tr>
+      <tr><td>100 users</td><td>{{cost:runs_100}}</td><td>{{cost:users100_month}}</td></tr>
+      <tr><td>10,000 users</td><td>{{cost:runs_10000}}</td><td>{{cost:users10000_month}}</td></tr>
     </table>
     <div class="small" style="font-size:.6em">
-      <b>Did cutting cost hurt?</b> Medium reasoning effort cost 1.8× as much with the same 89% accuracy, so we ship low. Shorter pages were 17% cheaper but not shipped: too few real pages to be sure.<br><br>
-      <span class="muted">*Token counts are measured. Dollar rates are placeholders in config, still to be confirmed against the gpt-6-luna price list.</span>
+      <b>Did cutting cost hurt?</b> Medium reasoning effort cost {{cost:medium_ratio}}× as much with the same 89% accuracy, so we ship low. Shorter pages were {{cost:short_saving_pct}} cheaper but not shipped: too few real pages to be sure.<br><br>
+      <span class="muted">*Token counts are measured. Costs use OpenAI's list prices for GPT-6 Luna ({{cost:rate_input}} / {{cost:rate_cached}} / {{cost:rate_output}} per 1M input / cached / output); the course key's billing may differ.</span>
     </div>
   </div>
 </section>
@@ -165,7 +165,7 @@
     <div class="card warn"><b>Invented numbers</b><p class="small">The quote must be word for word on a page fetched in this run. The number must be inside the quote ("$9" ≠ "$92"), and the unit must fit the cause.</p></div>
     <div class="card soft"><b>Loops and overspending</b><p class="small">≤6 calls, ≤4 fetches and ≤60k tokens per run, a 1M-token daily budget checked before every call, and the key redacted everywhere.</p></div>
   </div>
-  <div class="quote" style="margin-top:18px">Live test, real gpt-6-luna on an injected page: <b>status not_computable · suspicious_instructions_seen: true · injection_flagged_by_code: [helpinghands.org]</b>. A scripted model that <i>obeys</i> the attack is still overruled by code. 102 offline tests and 3 live tests pass.</div>
+  <div class="quote" style="margin-top:18px">Live test, real gpt-6-luna on an injected page: <b>status not_computable · suspicious_instructions_seen: true · injection_flagged_by_code: [helpinghands.org]</b>. A scripted model that <i>obeys</i> the attack is still overruled by code. 103 offline tests and 3 live tests pass.</div>
 </section>
 
 <!-- 9 Impact -->
@@ -175,7 +175,7 @@
     <div class="card soft"><div class="k">0 / 18</div><div class="l">wrong numbers shown (labelled test set, real model)</div></div>
     <div class="card soft"><div class="k">89%</div><div class="l">accuracy, up from 78% in the first version</div></div>
     <div class="card soft"><div class="k">100%</div><div class="l">of traps refused (cost per life, ranges, injections)</div></div>
-    <div class="card soft"><div class="k">~6 s</div><div class="l">to research an unrated charity, at ~$0.003</div></div>
+    <div class="card soft"><div class="k">~6 s</div><div class="l">to research an unrated charity, at ~{{cost:ship_cost}}</div></div>
   </div>
   <ul class="small" style="margin-top:20px;font-size:.66em">
     <li>Testing found <b>4 real bugs</b> before users did: "$9" matching inside "$92", "2.5x" read as 2, "CO2" breaking a number, and "83% delivered" read as income.</li>

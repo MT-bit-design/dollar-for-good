@@ -141,3 +141,17 @@ def test_format_metric():
 
 def test_every_cause_has_a_spec():
     assert set(CAUSES) == {"health", "poverty", "education", "climate"}
+
+
+def test_report_costs_use_the_same_formula_and_rates_as_the_app():
+    """tools/costs.py (report, slides, RESULTS.md) must price tokens exactly like the app."""
+    import importlib.util
+    from pathlib import Path
+    from app import agent, config
+    spec = importlib.util.spec_from_file_location("costs", Path(__file__).resolve().parent.parent / "tools" / "costs.py")
+    costs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(costs)
+    u = {"input_tokens": 9050, "cached_input_tokens": 5539, "output_tokens": 192}
+    assert costs.run_cost(u) == pytest.approx(agent.cost_usd(9050, 5539, 192))
+    assert costs.run_cost(u) == pytest.approx((3511 * 0.10 + 5539 * 0.01 + 192 * 0.50) / 1e6)
+    assert (config.PRICE_PER_M_INPUT, config.PRICE_PER_M_CACHED_INPUT, config.PRICE_PER_M_OUTPUT) == (0.10, 0.01, 0.50)

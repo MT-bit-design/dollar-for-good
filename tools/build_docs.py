@@ -152,6 +152,13 @@ def user_test_blocks() -> tuple[str, str]:
 
 def build(src: str, out: str) -> None:
     text = (ROOT / "docs" / src).read_text(encoding="utf-8")
+    costs = json.loads((ROOT / "eval" / "costs.json").read_text(encoding="utf-8"))   # from tools/costs.py
+
+    def cost(m):
+        if m.group(1) not in costs:
+            raise KeyError(f"{src}: unknown cost key {m.group(1)!r}; run tools/costs.py")
+        return html.escape(costs[m.group(1)])
+    text = re.sub(r"\{\{cost:([\w]+)\}\}", cost, text)
     report_block, slide_block = user_test_blocks()
     text = text.replace("{{user_test_report}}", report_block).replace("{{user_test_slide}}", slide_block)
     if "{{diagram}}" in text:   # the agent diagram is drawn once, in the report source
@@ -166,6 +173,9 @@ def build(src: str, out: str) -> None:
 
 
 if __name__ == "__main__":
+    import subprocess
+    import sys
+    subprocess.run([sys.executable, str(ROOT / "tools" / "costs.py")], check=True, stdout=subprocess.DEVNULL)
     build("report_src.html", "report.html")
     if (ROOT / "docs" / "slides_src.html").exists():
         build("slides_src.html", "slides.html")

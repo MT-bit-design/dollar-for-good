@@ -67,7 +67,7 @@ You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model
 ```
 .venv\Scripts\python.exe -m pytest -q
 ```
-102 offline tests: calculator, sourcing rules, plain donor wording, one measure per ranking, and safety (prompt injection, invented numbers, unsafe URLs, loops, token budget, the donor view with the budget used up, key leaks, `.env` lookup). They use a scripted fake model, so they need no key and cost nothing.
+103 offline tests: calculator, sourcing rules, plain donor wording, one measure per ranking, and safety (prompt injection, invented numbers, unsafe URLs, loops, token budget, the donor view with the budget used up, key leaks, `.env` lookup). They use a scripted fake model, so they need no key and cost nothing.
 
 Live tests against the real model (cost a few cents of tokens):
 ```
@@ -100,7 +100,7 @@ The data set is small (one JSON file per pair of causes), so there is no separat
 ## Limits
 - The sourced table is small (21 charities, 13 with usable numbers; 9 benchmarks, 7 sourced), and estimates come from different evaluators, years and methods. Climate advocacy figures are highly uncertain expected values.
 - A charity's own site can state conflicting figures. The agent verifies that a quote is real, not that the charity's claim is right.
-- Dollar costs use the per-token rates in `app/config.py` (`PRICE_PER_M_*`). Check them against the current gpt-6-luna price list.
+- Dollar costs use OpenAI's published list prices for GPT-6 Luna ($0.10 / $0.01 / $0.50 per million input / cached input / output tokens, set in `app/config.py` with sources). The course key is billed through Portkey, so its actual billing may differ. `tools/costs.py` recomputes every cost figure in the report, slides and `eval/RESULTS.md` from the measured token counts.
 
 ## User test
 `docs/user_test/user_test_kit.html` is a printable 5-page kit: facilitator script, two timed ranking rounds (without and with the tool), interview questions and an answer key. Record results in `docs/user_test/results.json`, then run `.\.venv\Scripts\python.exe tools/build_docs.py`; the report's user-test section and slide 9 are generated from that file, and anything left `null` shows as "not measured".

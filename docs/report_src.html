@@ -204,7 +204,7 @@
     </ul></td></tr>
   <tr><td>Output validator</td><td>Runs the code checks before the agent's answer is accepted. If a check fails, the model gets one retry with the exact reason, for example "The rate is not a single number found in the quote". A page flagged for injection gets no retry.</td></tr>
 </table>
-<p><b>Why <code>gpt-6-luna</code>, at low reasoning effort.</b> It is the course model, so the teaching staff can run the app with their key. The job is reading and copying, not deep reasoning. I measured medium effort against low on the full test set (Section 5): medium cost 1.8x as much and was slower, with exactly the same accuracy.</p>
+<p><b>Why <code>gpt-6-luna</code>, at low reasoning effort.</b> It is the course model, so the teaching staff can run the app with their key. The job is reading and copying, not deep reasoning. I measured medium effort against low on the full test set (Section 5): medium cost {{cost:medium_ratio}}x as much and was slower, with exactly the same accuracy.</p>
 <p><b>How the benchmark table was built.</b> The sourced table itself was made with AI help, but under the same rules. Two research agents, run in Claude Code while I built the app, gathered candidate figures. Each one had to fetch the source and copy a quote. Then the app's loader (<code>app/data.py</code>) re-checks every entry at startup. Any number that is not in its own quote, or has no link or no date, is downgraded to "missing." This check caught three entries on the first run. One was a benchmark the research agent had computed itself ($100 ÷ 3 = $33.33). It is now stored as the source's own "$100 → 3 LAYS," and the calculator does the division.</p>
 
 <h3>One real run, step by step</h3>
@@ -227,7 +227,7 @@
       <li>the page is not flagged.</li>
     </ul></li>
   <li><b>Math in code.</b> The calculator computes 5.7 ÷ 1 = <b>$5.70 per $1</b> and compares it with the poverty benchmark of $2.50 per $1 (Egger et al. 2022, cash transfer multiplier). The result is <b>2.3x the benchmark</b>.</li>
-  <li><b>Cost of this run</b>, measured: 4 model calls, 3 page fetches, 9,050 input tokens (5,539 cached), 192 output tokens, 7.3 s, <b>$0.0070</b> at the configured rates. The answer is cached, so the next lookup of One Acre Fund costs 0 tokens.</li>
+  <li><b>Cost of this run</b>, measured: {{cost:live_requests}} model calls, {{cost:live_pages}} page fetches, {{cost:live_input}} input tokens ({{cost:live_cached}} cached), {{cost:live_output}} output tokens, {{cost:live_seconds}} s, <b>{{cost:live_cost}}</b> at OpenAI's list prices (Section 5). The answer is cached, so the next lookup of One Acre Fund costs 0 tokens.</li>
 </ol>
 <p>The funder view uses the same agent for unlisted rows. In the sample portfolio, Living Goods was researched by the agent. Its site states "$68 per life-year saved," which is not a DALY figure, so the row is shown as "can't compute" with that reason, instead of a converted guess.</p>
 <figure class="tall">
@@ -237,15 +237,15 @@
 
 <!-- 5. TOKENOMICS -->
 <h2 class="pb">5. Tokenomics</h2>
-<div class="warn"><b>Read this first.</b> Every token count here is measured from real <code>gpt-6-luna</code> runs. The <b>dollar figures</b> multiply those counts by per-token rates set in <code>app/config.py</code>: $1.25 per million input tokens, $0.125 per million cached input tokens, and $10 per million output tokens. <b>These rates are placeholders that I could not confirm against the course's gpt-6-luna price list.</b> Changing them is a one-line edit, and the app's cost display updates with them.</div>
+<div class="warn"><b>About the rates.</b> Every token count here is measured from real <code>gpt-6-luna</code> runs. The <b>dollar figures</b> are computed by <code>tools/costs.py</code> from those counts at OpenAI's published list prices for GPT-6 Luna: {{cost:rate_input}} per million input tokens, {{cost:rate_cached}} per million cached input tokens, and {{cost:rate_output}} per million output tokens (standard tier, prompts up to 272K tokens, which covers every run here). Sources, accessed 26 Oct 2026: <a href="https://developers.openai.com/api/docs/pricing">OpenAI API pricing</a>, <a href="https://www.eesel.ai/blog/gpt-6-luna-pricing">eesel.ai</a> and <a href="https://anotherwrapper.com/llm-pricing/gpt-6-luna">AnotherWrapper</a> (input and output rates). The course key is billed through Portkey, so its actual billing may differ.</div>
 
 <h3>One typical run (measured)</h3>
 <p>Averaged over the 18 research runs in the final evaluation (shipped version), one research run uses:</p>
 <div class="kpis">
-  <div class="kpi"><b>4,116</b><span>input tokens per run</span></div>
-  <div class="kpi"><b>3,059</b><span>of those cached (74%)</span></div>
-  <div class="kpi"><b>132</b><span>output tokens per run</span></div>
-  <div class="kpi"><b>$0.0030</b><span>per run · 2.3 model calls · ~6 s</span></div>
+  <div class="kpi"><b>{{cost:ship_input}}</b><span>input tokens per run</span></div>
+  <div class="kpi"><b>{{cost:ship_cached}}</b><span>of those cached ({{cost:cached_share}})</span></div>
+  <div class="kpi"><b>{{cost:ship_output}}</b><span>output tokens per run</span></div>
+  <div class="kpi"><b>{{cost:ship_cost}}</b><span>per run ({{cost:ship_cost_per_1000}} per 1,000) · {{cost:ship_requests}} model calls · ~{{cost:ship_seconds}} s</span></div>
 </div>
 <p>Browsing the donor view costs <b>0 tokens</b>: listed charities come from the sourced table and the calculator. A portfolio upload only costs tokens for rows that are not in the table and have no numbers of their own, and those are capped at 10 per upload.</p>
 
@@ -253,17 +253,17 @@
 <p>Monthly use is an <b>assumption</b>, not a measurement: a donor researches 4 new charities a month, and a foundation user uploads one portfolio with 10 unlisted charities plus 4 one-off lookups (14 runs).</p>
 <table>
   <tr><th></th><th class="n">Research runs / month</th><th class="n">Cost / month</th></tr>
-  <tr><td>One donor</td><td class="n">4</td><td class="n">$0.012</td></tr>
-  <tr><td>One foundation user</td><td class="n">14</td><td class="n">$0.042</td></tr>
-  <tr><td>100 foundation users</td><td class="n">1,400</td><td class="n">$4.23</td></tr>
-  <tr><td>10,000 foundation users</td><td class="n">140,000</td><td class="n">$422.93</td></tr>
+  <tr><td>One donor</td><td class="n">{{cost:donor_runs}}</td><td class="n">{{cost:donor_month}}</td></tr>
+  <tr><td>One foundation user</td><td class="n">{{cost:funder_runs}}</td><td class="n">{{cost:funder_month}}</td></tr>
+  <tr><td>100 foundation users</td><td class="n">{{cost:runs_100}}</td><td class="n">{{cost:users100_month}}</td></tr>
+  <tr><td>10,000 foundation users</td><td class="n">{{cost:runs_10000}}</td><td class="n">{{cost:users10000_month}}</td></tr>
 </table>
-<p>These are upper bounds. The answer cache is shared, so a charity researched for one user is free for every later user. At 10,000 users, most popular charities would already be cached. Even at the upper bound, the model costs about 4 cents per foundation user per month ($0.042) and about 1 cent per donor ($0.012), at the configured rates. That is far below hosting or staff time. The cost that matters at scale is <i>keeping the sourced table current</i>, not tokens.</p>
+<p>These are upper bounds. The answer cache is shared, so a charity researched for one user is free for every later user. At 10,000 users, most popular charities would already be cached. Even at the upper bound, the model costs {{cost:funder_month}} per foundation user per month and {{cost:donor_month}} per donor, at OpenAI's list prices: well under a cent each, and far below hosting or staff time. The cost that matters at scale is <i>keeping the sourced table current</i>, not tokens.</p>
 
 <h3>What I did to keep cost down</h3>
 <ul>
   <li><b>No model for known charities.</b> The sourced table and calculator answer the donor view with zero tokens.</li>
-  <li><b>Prompt caching.</b> The long, fixed system prompt comes first, so the provider caches it. 74% of input tokens were cached in the final evaluation.</li>
+  <li><b>Prompt caching.</b> The long, fixed system prompt comes first, so the provider caches it. {{cost:cached_share}} of input tokens were cached in the final evaluation.</li>
   <li><b>Answer cache.</b> A researched charity is stored, and repeat lookups cost nothing. The sample portfolio's AI cost shows $0.0000 on a second upload.</li>
   <li><b>Low reasoning effort</b> and a <b>small output</b>: a structured answer of about 130 tokens instead of free text.</li>
   <li><b>Hard caps</b> per run (6 calls, 4 fetches, 60,000 tokens), per upload (10 agent rows) and per day (1,000,000 tokens).</li>
@@ -273,14 +273,14 @@
 <p>I ran the full 18-case test set (Section 6 describes it) under each setting. All runs are real model calls, and the raw results are in <code>eval/results/</code>.</p>
 <table>
   <tr><th>Setting</th><th class="n">Accuracy</th><th class="n">Wrong numbers</th><th class="n">Input / run</th><th class="n">Cached / run</th><th class="n">Output / run</th><th class="n">Cost / run</th><th class="n">Time / run</th></tr>
-  <tr><td><b>Shipped:</b> low effort, 12,000-char pages</td><td class="n">89%</td><td class="n">0</td><td class="n">4,116</td><td class="n">3,059</td><td class="n">132</td><td class="n">$0.0030</td><td class="n">5.8 s</td></tr>
-  <tr><td>Medium reasoning effort</td><td class="n">89%</td><td class="n">0</td><td class="n">5,348</td><td class="n">3,728</td><td class="n">297</td><td class="n">$0.0055</td><td class="n">7.4 s</td></tr>
-  <tr><td>Pages cut to 4,000 chars</td><td class="n">89%</td><td class="n">0</td><td class="n">3,179</td><td class="n">2,395</td><td class="n">124</td><td class="n">$0.0025</td><td class="n">2.1 s</td></tr>
+  <tr><td><b>Shipped:</b> low effort, 12,000-char pages</td><td class="n">89%</td><td class="n">0</td><td class="n">{{cost:ship_input}}</td><td class="n">{{cost:ship_cached}}</td><td class="n">{{cost:ship_output}}</td><td class="n">{{cost:cost_v3_validator_retry}}</td><td class="n">5.8 s</td></tr>
+  <tr><td>Medium reasoning effort</td><td class="n">89%</td><td class="n">0</td><td class="n">5,348</td><td class="n">3,728</td><td class="n">297</td><td class="n">{{cost:cost_exp_medium_effort}}</td><td class="n">7.4 s</td></tr>
+  <tr><td>Pages cut to 4,000 chars</td><td class="n">89%</td><td class="n">0</td><td class="n">3,179</td><td class="n">2,395</td><td class="n">124</td><td class="n">{{cost:cost_exp_short_pages_4k}}</td><td class="n">2.1 s</td></tr>
 </table>
 <ul>
-  <li><b>Low vs medium effort:</b> no loss at all. Medium costs 1.8x as much for identical results, so low is the clear choice.</li>
-  <li><b>Shorter pages:</b> 17% cheaper with identical accuracy, but I did <i>not</i> ship it. The synthetic test pages are short, so only the 4 real websites really tested the cut, and real pages can hide the figure past 4,000 characters. That is too small a sample to be sure the cut is safe. I chose the safer setting; this is a judgement call, not a proven result.</li>
-  <li><b>Where a cut <i>did</i> hurt:</b> the first version was the cheapest per call and had the fewest checks, and it showed 2 wrong numbers. The shipped version spends slightly more per run because one in a few answers takes a retry. The input per run grew from 3,401 to 4,116 tokens, but the cost per run <i>fell</i> from $0.0050 to $0.0030, because the longer fixed prompt now gets cached. The safer version turned out cheaper.</li>
+  <li><b>Low vs medium effort:</b> no loss at all. Medium costs {{cost:medium_ratio}}x as much for identical results, so low is the clear choice.</li>
+  <li><b>Shorter pages:</b> {{cost:short_saving_pct}} cheaper with identical accuracy, but I did <i>not</i> ship it. The synthetic test pages are short, so only the 4 real websites really tested the cut, and real pages can hide the figure past 4,000 characters. That is too small a sample to be sure the cut is safe. I chose the safer setting; this is a judgement call, not a proven result.</li>
+  <li><b>Fewer checks did hurt:</b> the first version had the fewest checks, and it showed 2 wrong numbers. The shipped version adds the checks and a retry when one fails. Its input per run grew from {{cost:first_input}} to {{cost:ship_input}} tokens, but the cost per run <i>{{cost:first_to_ship_verb}}</i> from {{cost:first_cost}} to {{cost:ship_cost}}, because more of the longer fixed prompt is now cached. The safer version turned out cheaper.</li>
 </ul>
 
 <!-- 6. SAFETY -->
@@ -292,7 +292,7 @@
   <tr><td><b>Prompt injection</b> (hidden)</td><td>Hidden <code>display:none</code> text plants a figure, or "reveal your API key."</td><td>Hidden elements, <code>aria-hidden</code> text, scripts and zero-width characters are stripped before the model sees the page. A quote taken from hidden text then fails the word-for-word check.</td><td>offline + live</td></tr>
   <tr><td><b>Invented facts</b></td><td>The model makes up a quote, a number, or a source it never fetched.</td><td>The quote must be word for word on a page fetched <i>in this run</i>. Each number must be inside the quote, and number boundaries are respected, so "$9" never matches inside "$92".</td><td>offline</td></tr>
   <tr><td><b>Wrong unit</b></td><td>"$4,500 per life saved" or "83% of funds delivered" shown as a cause metric.</td><td>The quote must name the cause's unit (DALY, tonne/CO<sub>2</sub>, LAYS or years of schooling, or an income word plus a per-dollar form). Unit mismatches are rejected.</td><td>offline + eval</td></tr>
-  <tr><td><b>Wrong math</b></td><td>The model divides wrongly or rounds.</td><td>The model never calculates. All math is in <code>app/calculator.py</code>, covered by 29 unit tests.</td><td>offline</td></tr>
+  <tr><td><b>Wrong math</b></td><td>The model divides wrongly or rounds.</td><td>The model never calculates. All math is in <code>app/calculator.py</code>, covered by 30 unit tests.</td><td>offline</td></tr>
   <tr><td><b>Wrong action</b></td><td>The agent fetches an internal address (cloud metadata, localhost) or an attacker's site.</td><td>The tool only allows the charity's domain and 9 evaluators. It blocks private, loopback and link-local IPs, links with a username or password, and redirects off the allowed sites.</td><td>offline</td></tr>
   <tr><td><b>Loops forever</b></td><td>The model keeps calling the tool.</td><td>Each run is capped at 6 model calls, 4 fetches and 60,000 tokens. Repeated URLs are refused.</td><td>offline</td></tr>
   <tr><td><b>Overspending</b></td><td>A bug or a bad actor floods the agent.</td><td>A daily 1,000,000-token budget for all users is checked <i>before</i> any model call. At most 2 research runs at once, 25 rows and 200 KB per upload, and 10 agent rows per upload.</td><td>offline</td></tr>
@@ -305,7 +305,7 @@
 <pre class="cols">{{file:docs/evidence/live_injection_tests.txt}}</pre>
 
 <h3>Defense in action 2: code overrules a model that obeys the attack</h3>
-<p>The model refused this time, but we shouldn't rely on that. So the offline tests use a <b>scripted fake model that deliberately obeys the attack</b>: it quotes "Our cost per DALY is $1." word for word from the page. The run still ends as <code>not_computable</code> with the reason <i>"That page contains text aimed at manipulating an AI, so no figure from it is trusted."</i> The other offline tests cover the rest of the table above. All 58 safety tests pass (102 offline tests in total):</p>
+<p>The model refused this time, but we shouldn't rely on that. So the offline tests use a <b>scripted fake model that deliberately obeys the attack</b>: it quotes "Our cost per DALY is $1." word for word from the page. The run still ends as <code>not_computable</code> with the reason <i>"That page contains text aimed at manipulating an AI, so no figure from it is trusted."</i> The other offline tests cover the rest of the table above. All 58 safety tests pass (103 offline tests in total):</p>
 <pre class="cols">{{file:docs/evidence/safety_tests.txt}}</pre>
 
 <h3>The tests found real bugs</h3>
@@ -341,7 +341,7 @@
 <h3>Time and reach</h3>
 <ul>
   <li><b>Listed charities:</b> the ranking appears instantly, with the source, date and exact quote one click away.</li>
-  <li><b>An unlisted charity:</b> the agent answers in about 6 seconds on average (7.3 s in the run in Section 4) for about $0.003. For comparison, the two AI research agents that built the table took about 20 and 24 minutes (one per pair of causes, 44 agent-minutes in total), with 67 tool calls each.</li>
+  <li><b>An unlisted charity:</b> the agent answers in about 6 seconds on average ({{cost:live_seconds}} s in the run in Section 4) for about {{cost:ship_cost}}. For comparison, the two AI research agents that built the table took about 20 and 24 minutes (one per pair of causes, 44 agent-minutes in total), with 67 tool calls each.</li>
   <li><b>A whole portfolio:</b> the 9-grant sample is checked in one upload. The funder sees which grants beat the bar and what share of dollars does (34% in the sample). This answer used to need an analyst reading annual reports.</li>
   <li><b>Something that was hard before is now easy:</b> putting education, health, poverty and climate grants side by side, each against its own sourced bar, in a single table.</li>
 </ul>
@@ -359,7 +359,7 @@
   <li><b>It favors what is easy to measure.</b> Policy change and AI safety are hard to put a number on, so they can't be ranked here. The app says so on its first screen, but a ranking still draws attention toward measurable causes.</li>
   <li><b>The agent's recall is 82%</b> when a valid figure exists. It sometimes refuses real figures, which is the safe direction to fail.</li>
   <li><b>The injection detector is pattern-based.</b> A clever attacker could phrase instructions that slip past it. The quote and unit checks still apply, but a page that simply <i>states</i> a false figure in normal language would pass.</li>
-  <li><b>Not hosted online.</b> It runs locally, and dollar costs depend on placeholder token rates.</li>
+  <li><b>Not hosted online,</b> and dollar costs use OpenAI's list prices for GPT-6 Luna; the course key's billing through Portkey may differ.</li>
 </ul>
 <h3>Who checks the impact numbers?</h3>
 <p>This was the user tester's sharpest question, and the honest answer is: not this tool. It proves that each quote is really on the page it came from, that the number is inside the quote and in the cause's unit, and it does the math in code. It cannot prove that the figure is true. The figures in the table come from different kinds of source: independent evaluators (Giving Green, Founders Pledge, J-PAL), peer-reviewed studies (the cash-transfer multiplier is from Egger et al. in <i>Econometrica</i>; the Malaria Consortium figure is peer-reviewed but written by the charity's own staff), and the charities themselves (One Acre Fund and Village Enterprise report their own figures, and Village Enterprise's own pages disagree with each other). Today the app shows each number's source and notes, but it does not label which kind of source it is. Adding that label is the first next step.</p>
