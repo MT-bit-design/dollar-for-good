@@ -1,52 +1,23 @@
 {
-  "completed": false,
-  "_how_to": "Fill this in after the session, set completed to true, then run tools/build_docs.py. Use null for anything not measured. Never guess a value.",
+  "completed": true,
+  "_how_to": "Recorded by Michael after the session. Wording below is Michael's record, quoted as given. Use null for anything not measured. Never guess a value.",
+  "session_type": "informal",
   "date": null,
-  "participant_role": null,
-  "participant_context": null,
-  "consent_to_quote": null,
-  "rounds": [
-    {
-      "round": 1,
-      "set": "A (poverty)",
-      "with_tool": false,
-      "minutes": null,
-      "hit_cap": null,
-      "top_pick": null,
-      "top_pick_correct": null,
-      "order_correct": null,
-      "order_out_of": 4,
-      "unknowns_flagged": null,
-      "cited_source_for_top_pick": null,
-      "confidence_1to5": null,
-      "used": null
-    },
-    {
-      "round": 2,
-      "set": "B (climate)",
-      "with_tool": true,
-      "minutes": null,
-      "hit_cap": null,
-      "top_pick": null,
-      "top_pick_correct": null,
-      "order_correct": null,
-      "order_out_of": 4,
-      "unknowns_flagged": null,
-      "cited_source_for_top_pick": null,
-      "confidence_1to5": null,
-      "opened_show_details": null
-    }
+  "participant_role": "a colleague at an impact investment firm",
+  "participant_context": "using charities that publish their impact figures",
+  "consent_to_quote": "role only",
+  "said": "As I recorded it, they said it is “an easy to work with tool” that is “helpful to compare what charities report publicly” and “a good way to aggregate” philanthropies.",
+  "quotes": [
+    "an easy to work with tool",
+    "helpful to compare what charities report publicly",
+    "a good way to aggregate"
   ],
-  "round3_reaction": null,
-  "own_charities": {
-    "tried": false,
-    "names": [],
-    "outcome": null
-  },
-  "how_they_do_it_today": null,
-  "time_saved_estimate_per_year": null,
-  "would_use": null,
-  "most_confusing": null,
-  "quotes": [],
+  "limit_raised": "The table covers only 21 charities today.",
+  "question": "Who verifies the numbers charities report?",
+  "answer": "This tool does not. It proves that a quote is really on the charity's page and does the math in code, but it cannot prove the charity's figure is true.",
+  "time_measured": false,
+  "time_note": "The session was not timed, so no time savings are claimed from it.",
+  "next_step": "Tag each figure by who produced it (independent evaluation, peer-reviewed study, or self-reported) so users can see how much weight each number deserves.",
+  "rounds": [],
   "screenshot": null
 }

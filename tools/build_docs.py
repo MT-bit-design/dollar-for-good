@@ -47,6 +47,40 @@ def _yn(v) -> str:
     return "not measured" if v is None else ("yes" if v else "no")
 
 
+def _informal_blocks(r: dict) -> tuple[str, str]:
+    """An untimed session: show what was said and asked, and say plainly what was not measured."""
+    who = f"<b>{_e(r.get('participant_role'))}</b>"
+    if r.get("participant_context"):
+        who += f", {_e(r['participant_context'])}"
+    when = f" on {_e(r['date'])}" if r.get("date") else ""
+    report = f"<p>A real user tried the tool{when}: {who}.</p>"
+    if r.get("said"):
+        report += f"<div class='callout'>{_e(r['said'])}</div>"
+    items = ""
+    if r.get("limit_raised"):
+        items += f"<li><b>Limit raised:</b> {_e(r['limit_raised'])}</li>"
+    if r.get("question"):
+        items += f"<li><b>Their sharpest question:</b> {_e(r['question'])}</li>"
+    if r.get("answer"):
+        items += f"<li><b>The honest answer:</b> {_e(r['answer'])}</li>"
+    if not r.get("time_measured"):
+        items += f"<li><b>Time:</b> {_e(r.get('time_note') or 'Not measured, so no time savings are claimed.')}</li>"
+    if r.get("next_step"):
+        items += f"<li><b>The next step it led to:</b> {_e(r['next_step'])}</li>"
+    report += f"<ul>{items}</ul>" if items else ""
+    if r.get("screenshot"):
+        report += (f"<figure><img src='{{{{img:{html.escape(r['screenshot'])}}}}}' alt='User test'>"
+                   f"<figcaption>The participant's session.</figcaption></figure>")
+    quotes = r.get("quotes") or []
+    slide = f"<li><b>Real user ({_e(r.get('participant_role'))}):</b> "
+    slide += " · ".join(f"“{_e(q)}”" for q in quotes[:2]) if quotes else "tried the tool"
+    if r.get("question"):
+        slide += f". Sharpest question: <i>{_e(r['question'])}</i> The tool checks quotes, not truth."
+    if not r.get("time_measured"):
+        slide += " Not timed, so no time savings claimed."
+    return report, slide + "</li>"
+
+
 def user_test_blocks() -> tuple[str, str]:
     """The report section and slide line for the real user test. Plain code, no guessing:
     anything missing in results.json is shown as 'not measured'."""
@@ -56,6 +90,8 @@ def user_test_blocks() -> tuple[str, str]:
         return PENDING_REPORT, PENDING_SLIDE
     if not r.get("completed"):
         return PENDING_REPORT, PENDING_SLIDE
+    if r.get("session_type") == "informal":
+        return _informal_blocks(r)
 
     rounds = r.get("rounds") or []
     rows = "".join(
