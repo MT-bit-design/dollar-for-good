@@ -1,5 +1,11 @@
 // Dollar for Good front end. Everything shown from data or the agent is escaped.
 const $ = (s, el = document) => el.querySelector(s);
+const CAVEATS = {
+  health: "Figures come from different evaluators and years. The Against Malaria Foundation estimate is from 2016; GiveWell's current cost per life saved suggests today's cost per DALY is higher.",
+  poverty: "GiveDirectly is the benchmark program itself. One Acre Fund and Village Enterprise figures are self-reported by the charities, and Village Enterprise's own site also states a different, higher figure.",
+  education: "Outcomes are not all the same unit: Youth Impact is learning-adjusted years; CAMFED and deworming are additional years of schooling. Deworming's figure is for deworming in general, not one charity.",
+  climate: "These are highly uncertain expected-value estimates for policy advocacy, which their own authors say to compare only by order of magnitude. The benchmark is the social cost of a tonne of CO2, not another charity.",
+};
 const ICONS = { health: "🩺", poverty: "💵", education: "📚", climate: "🌍" };
 
 function esc(s) {
@@ -84,9 +90,11 @@ async function showCause(cause) {
     </tr>`).join("");
   $("#rank-table").innerHTML = `<thead><tr><th>#</th><th>Charity</th><th>${esc(v.metric_label)}</th><th>vs benchmark</th><th>Source</th></tr></thead><tbody>${rows || `<tr><td colspan="5">No charity in this cause has a sourced number yet.</td></tr>`}</tbody>`;
 
+  $("#cause-caveat").hidden = false;
+  $("#cause-caveat").innerHTML = `<b>Read with care:</b> ${esc(CAVEATS[cause])}`;
   $("#nc-wrap").hidden = !v.not_computable.length;
   $("#nc-list").innerHTML = v.not_computable.map(r => `
-    <li><b>${link(r.website, r.name)}</b><div class="why">${esc(r.result.reason)}</div></li>`).join("");
+    <li><b>${link(r.website, r.name)}</b><div class="why">${esc(String(r.result.reason).replace(/^MISSING:\s*/i, ""))}</div></li>`).join("");
   $("#research-form [name=cause]").value = cause;
 }
 
@@ -176,7 +184,7 @@ async function runPortfolio(file) {
         <div class="tile"><div class="n">${s.computed} / ${s.charities}</div><div class="l">charities we could compute</div></div>
         <div class="tile"><div class="n">${s.at_or_above_benchmark} / ${s.compared}</div><div class="l">at or above their cause benchmark</div></div>
         <div class="tile"><div class="n">${share}</div><div class="l">of granted dollars at or above benchmark (${money(s.granted_at_or_above_usd)} of ${money(s.granted_total_usd)})</div></div>
-        <div class="tile"><div class="n">$${s.tokens.cost_usd.toFixed(4)}</div><div class="l">AI cost for this check (${(s.tokens.input_tokens + s.tokens.output_tokens).toLocaleString()} tokens)</div></div>
+        <div class="tile"><div class="n">$${s.tokens.cost_usd.toFixed(4)}</div><div class="l">AI cost for this check (${(s.tokens.input_tokens + s.tokens.output_tokens).toLocaleString()} tokens${r.rows.some(x => x.agent?.cached) ? "; research answers reused from cache" : ""})</div></div>
       </div>
       <div class="table-wrap"><table class="rank"><thead><tr><th>Charity</th><th>Granted</th><th>Metric</th><th>vs benchmark</th><th>Where the number came from</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   } catch (err) {

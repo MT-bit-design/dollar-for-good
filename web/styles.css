@@ -54,6 +54,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 32px 60px; }
 .bench-src { max-width: 560px; font-size: 13px; color: var(--muted); }
 .bench-src q { display: block; font-style: italic; margin: 4px 0; color: var(--ink); }
 
+.caveat { background: var(--warn-soft); color: #6b4a00; border-radius: 8px; padding: 9px 12px; font-size: 13.5px; margin: 0 0 12px; }
 .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
 table.rank { width: 100%; border-collapse: collapse; font-size: 14px; }
 table.rank th { text-align: left; font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding: 12px 14px; border-bottom: 1px solid var(--line); background: #fafbfc; }
