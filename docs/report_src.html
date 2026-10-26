@@ -47,11 +47,14 @@
     figure, pre, .diagram, .kpis { break-inside: avoid; }
     tr { break-inside: avoid; }
     .pb { }
+    p, li { font-size: 14.5px; }
+    table { font-size: 12.5px; }
+    h2 { margin-top: 30px; }
     figure img { max-height: 5.2in; }
     figure.tall img { max-height: 4.4in; }
     pre { font-size: 9.5px; }
   }
-  @page { size: letter; margin: 0.7in; }
+  @page { size: letter; margin: 0.6in; }
 </style>
 </head>
 <body>
@@ -85,20 +88,20 @@
   <li>Every cause uses a different unit: DALYs in health, income multipliers in poverty, learning-adjusted years in education, tonnes of CO<sub>2</sub> in climate.</li>
   <li>Charity websites mix real impact figures with outputs ("40,000 families reached"), overhead ratios, and cost per life saved, which cannot be put in the same column as cost per DALY.</li>
 </ul>
-<p>Building this project's own benchmark table gives a sense of the cost. Two AI research agents, searching and reading full-time, took <b>about 20 and 24 minutes</b> to source just 9 benchmarks and 21 charities. They made <b>134 tool calls</b> (searches, page fetches and PDF reads) between them, and still left 10 of the 30 numbers missing. A person doing this by hand, with source checks, would spend hours per cause.</p>
-<p><b>The cost of not doing it.</b> GiveWell's own figures show the stakes. In 2025 it estimated the marginal cost to save a life through its Top Charities Fund at about $8,000. In this tool's own table, the poverty charities range from $1.40 to $5.70 of income per dollar: a <b>4x spread</b> within one cause. A donor who picks by name alone can easily give to a program that does a fraction of the good of the one next to it.</p>
+<p>Building this project's own benchmark table gives a sense of the cost. Two AI research agents worked in parallel, one per pair of causes. They took <b>about 20 and 24 minutes</b> (44 agent-minutes in total) to source just 9 benchmarks and 21 charities. They made <b>134 tool calls</b> (searches, page fetches and PDF reads) between them, and still left 10 of the 30 numbers missing. A person doing this by hand, with source checks, would spend hours per cause.</p>
+<p><b>The cost of not doing it.</b> GiveWell's own figures show the stakes. On GiveWell's blog on 7 May 2025, a GiveWell staff member wrote that "our current estimate for the marginal cost per life saved through the Top Charities Fund is approximately $8,000", and that the actual cost "might range from roughly $5,000 to $10,000". In this tool's own table, the poverty charities range from $1.40 to $5.70 of income per dollar: a <b>4x spread</b> within one cause. A donor who picks by name alone can easily give to a program that does a fraction of the good of the one next to it.</p>
 <p><b>Why it has to be trustworthy.</b> If you ask a chatbot "what is charity X's cost per DALY?", it will often give a confident number, with no source, from a model that may be years out of date. For money decisions, a wrong number is worse than no number. That is why this app's first rule is: <b>every number has a link, a date and an exact quote, or it is marked missing.</b></p>
 
 <!-- 3. WHAT IS NEW -->
 <h2>3. What is new here</h2>
 <p>I compared the tool with what already exists:</p>
 <table>
-  <tr><th>Product</th><th>What it does well</th><th>What it doesn't do</th></tr>
-  <tr><td><b>GiveWell</b></td><td>Deep cost-effectiveness models for a small set of top charities (four on its 2023 Top Charities Fund page), published as spreadsheets.</td><td>Covers few charities and gives no per-cause ranking of everything else. You can't upload your own portfolio, and it doesn't do education or climate.</td></tr>
-  <tr><td><b>Charity Navigator</b> (Impact &amp; Measurement, from its 2020 ImpactMatters purchase)</td><td>Rates a very large number of US charities. Over 3,000 have an impact rating.</td><td>Gives a 0–100 score, not a number in the cause's own unit (cost per DALY, per tonne). Critics note it gives no GiveWell-style impact-per-dollar figure. It can't place your own portfolio against a benchmark.</td></tr>
-  <tr><td><b>Giving Green / Founders Pledge</b></td><td>Expert climate and cross-cause recommendations, some with cost-per-tonne estimates.</td><td>Each covers one area, as written reports. They don't rank across causes in a common format, and there's no portfolio check.</td></tr>
-  <tr><td><b>Giving What We Can</b></td><td>Pulls together evaluators' recommendations and funds.</td><td>Doesn't compute per-dollar metrics, and older impact reports are no longer updated.</td></tr>
-  <tr><td><b>ChatGPT and other chatbots</b></td><td>Can answer any question about any charity instantly.</td><td>Numbers often come with no source, can be invented, and the chatbot does its own arithmetic. It also follows instructions hidden in web pages (prompt injection).</td></tr>
+  <tr><th>Product</th><th>What it does well (quoted from its own pages)</th><th>What this tool adds</th></tr>
+  <tr><td><b>GiveWell</b></td><td>Detailed estimates for its four top charities, for example "an estimated average cost-effectiveness of $5,500 per life saved" (top charities page, last updated September 2025). Its Top Charities Fund supports "global health and development programs".</td><td>Rankings in each cause's own unit across four causes, including education and climate. Checks a funder's own list. Researches charities that are not on an evaluator's list, with checked quotes.</td></tr>
+  <tr><td><b>Charity Navigator</b></td><td>Over 230,000 rated organizations, over 3,000 of them on Impact &amp; Measurement (Wikipedia, as of June 2024). It acquired ImpactMatters in October 2020. Its impact metric "evaluates eligible charities on cost-effectiveness" and reports whether a program "is highly cost-effective, cost-effective or not cost-effective".</td><td>The number itself, in the cause's unit (cost per DALY, per tonne), with its source quote, a published range where one exists, and a sourced benchmark to compare against.</td></tr>
+  <tr><td><b>Giving Green and Founders Pledge</b></td><td>Expert estimates for climate charities, for example Giving Green's "$0.54 per metric ton of CO2e" for Evergreen Collaborative (2022) and Founders Pledge's "USD 1/tCO2e" for Clean Air Task Force (2021).</td><td>These estimates side by side, in one unit and against one benchmark, next to the other causes, and applied to a funder's own grants.</td></tr>
+  <tr><td><b>Giving What We Can</b></td><td>"We base our recommendations on the research of independent, impact-focused charity evaluators" (2026 recommendations page).</td><td>Its older charity reports stay online but, in its own words, "we are not updating them and the information may therefore be out of date" (2016 AMF report). This tool shows every number's date, so old figures are easy to spot.</td></tr>
+  <tr><td><b>ChatGPT and other chatbots</b></td><td>Answers any question about any charity instantly.</td><td>Ties every number to a quote that code finds word for word on a page that was actually opened. The math is done in code. Instructions hidden in pages are stripped or flagged (Section 6).</td></tr>
 </table>
 <p><b>What Dollar for Good does that those don't:</b></p>
 <ol>
@@ -222,10 +225,10 @@
   <li><b>Math in code.</b> The calculator computes 5.7 ÷ 1 = <b>$5.70 per $1</b> and compares it with the poverty benchmark of $2.50 per $1 (Egger et al. 2022, cash transfer multiplier). The result is <b>2.3x the benchmark</b>.</li>
   <li><b>Cost of this run</b>, measured: 4 model calls, 3 page fetches, 9,050 input tokens (5,539 cached), 192 output tokens, 7.3 s, <b>$0.0070</b> at the configured rates. The answer is cached, so the next lookup of One Acre Fund costs 0 tokens.</li>
 </ol>
-<p>The funder view uses the same agent for unlisted rows. In the sample portfolio (Figure 4), Living Goods was researched by the agent. Its site states "$68 per life-year saved," which is not a DALY figure, so the row is shown as "can't compute" with that reason, instead of a converted guess.</p>
+<p>The funder view uses the same agent for unlisted rows. In the sample portfolio, Living Goods was researched by the agent. Its site states "$68 per life-year saved," which is not a DALY figure, so the row is shown as "can't compute" with that reason, instead of a converted guess.</p>
 <figure class="tall">
-  <img src="{{img:portfolio}}" alt="Portfolio view with sample CSV">
-  <figcaption>Figure 4. The funder view with the sample portfolio: 9 grants totalling $830,000. 6 can be computed, and 3 of those are at or above their cause benchmark, which is 34% of granted dollars. Each row says where its number came from: the funder's own numbers, the sourced table, or the research agent.</figcaption>
+  <img src="{{img:crop_portfolio}}" alt="Portfolio view with sample CSV">
+  <figcaption>Figure 4. The funder view with the sample portfolio (summary and the first five of nine rows): 9 grants totalling $830,000. 6 can be computed, and 3 of those are at or above their cause benchmark, which is 34% of granted dollars. Each row says where its number came from: the funder's own numbers, the sourced table, or the research agent.</figcaption>
 </figure>
 
 <!-- 5. TOKENOMICS -->
@@ -251,7 +254,7 @@
   <tr><td>100 foundation users</td><td class="n">1,400</td><td class="n">$4.23</td></tr>
   <tr><td>10,000 foundation users</td><td class="n">140,000</td><td class="n">$422.93</td></tr>
 </table>
-<p>These are upper bounds. The answer cache is shared, so a charity researched for one user is free for every later user. At 10,000 users, most popular charities would already be cached. Even at the upper bound, the model costs about half a cent per user per month, far below hosting or staff time. The cost that matters at scale is <i>keeping the sourced table current</i>, not tokens.</p>
+<p>These are upper bounds. The answer cache is shared, so a charity researched for one user is free for every later user. At 10,000 users, most popular charities would already be cached. Even at the upper bound, the model costs about 4 cents per foundation user per month ($0.042) and about 1 cent per donor ($0.012), at the configured rates. That is far below hosting or staff time. The cost that matters at scale is <i>keeping the sourced table current</i>, not tokens.</p>
 
 <h3>What I did to keep cost down</h3>
 <ul>
@@ -334,7 +337,7 @@
 <h3>Time and reach</h3>
 <ul>
   <li><b>Listed charities:</b> the ranking appears instantly, with the source, date and exact quote one click away.</li>
-  <li><b>An unlisted charity:</b> the agent answers in about 6 seconds on average (7.3 s in the run in Section 4) for about $0.003. For comparison, the AI research agents that built the table needed 20–24 minutes per pair of causes, with 67 tool calls each.</li>
+  <li><b>An unlisted charity:</b> the agent answers in about 6 seconds on average (7.3 s in the run in Section 4) for about $0.003. For comparison, the two AI research agents that built the table took about 20 and 24 minutes (one per pair of causes, 44 agent-minutes in total), with 67 tool calls each.</li>
   <li><b>A whole portfolio:</b> the 9-grant sample is checked in one upload. The funder sees which grants beat the bar and what share of dollars does (34% in the sample). This answer used to need an analyst reading annual reports.</li>
   <li><b>Something that was hard before is now easy:</b> putting education, health, poverty and climate grants side by side, each against its own sourced bar, in a single table.</li>
 </ul>
@@ -366,8 +369,12 @@
 
 <h3>References (accessed 26 Oct 2026)</h3>
 <ul class="refs">
-  <li>GiveWell, “GiveWell's 2025 grantmaking” (blog, 2026-02-26), <a href="https://blog.givewell.org/2026/02/26/givewells-2025-grantmaking-record-grants-expanded-reach-crisis-response/">blog.givewell.org</a>, and the March 2025 open thread (<a href="https://blog.givewell.org/2025/03/25/march-2025-open-thread/">link</a>). The cost per life saved figures are cited in Section 2.</li>
-  <li>Charity Navigator, Wikipedia entry (Impact &amp; Measurement coverage, ImpactMatters acquisition), <a href="https://en.wikipedia.org/wiki/Charity_Navigator">en.wikipedia.org/wiki/Charity_Navigator</a>. EA Forum, “ImpactMatters was acquired by Charity Navigator but…”, <a href="https://forum.effectivealtruism.org/posts/g7uHEoaYikc6xizys">forum.effectivealtruism.org</a>.</li>
+  <li>GiveWell, staff reply by Chandler Brotak, 7 May 2025, on “March 2025 open thread”, <a href="https://blog.givewell.org/2025/03/25/march-2025-open-thread/">blog.givewell.org/2025/03/25/march-2025-open-thread</a>: the $8,000 and $5,000–$10,000 figures in Section 2.</li>
+  <li>GiveWell, “Top charities” (last updated September 2025), <a href="https://www.givewell.org/charities/top-charities">givewell.org/charities/top-charities</a>, and “Top Charities Fund” (last updated September 2026), <a href="https://www.givewell.org/top-charities-fund">givewell.org/top-charities-fund</a>.</li>
+  <li>Charity Navigator, Wikipedia entry (organizations rated, Impact &amp; Measurement coverage as of June 2024, ImpactMatters acquisition), <a href="https://en.wikipedia.org/wiki/Charity_Navigator">en.wikipedia.org/wiki/Charity_Navigator</a>, and Charity Navigator, “Impact &amp; Measurement” methodology, <a href="https://www.charitynavigator.org/about-us/our-methodology/ratings/impact-measurement/">charitynavigator.org</a>.</li>
+  <li>Giving What We Can, best charities page (2026 recommendations), <a href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2025">givingwhatwecan.org</a>, and its Against Malaria Foundation report (20 June 2016), <a href="https://www.givingwhatwecan.org/reports/against-malaria-foundation">givingwhatwecan.org/reports/against-malaria-foundation</a>.</li>
+  <li>Giving Green, “Climate recommendations in EA” (EA Forum, 2022-01-18), <a href="https://forum.effectivealtruism.org/posts/H3aKKezuaG4EZSsBu/climate-recommendations-in-ea-giving-green-and-founders">forum.effectivealtruism.org</a>. Founders Pledge, “A guide to the changing landscape of high-impact climate philanthropy” (2021-11), linked from the app's Clean Air Task Force row.</li>
+  <li>Centre for Effective Altruism, home page (definition of effective altruism), <a href="https://www.centreforeffectivealtruism.org/">centreforeffectivealtruism.org</a>.</li>
   <li>Every benchmark and charity figure in the app has its own source URL, source date, accessed date and quote in <code>data/research/*.json</code>, shown in the app under “Quote and notes.” The main benchmarks: Open Philanthropy GHW bar, ~$50/DALY (2023); Egger et al., <i>Econometrica</i> 2022, cash transfer multiplier 2.5; Angrist et al. 2020, ~3 LAYS per $100; US EPA 2023, social cost of carbon $190/t (2020 emissions, 2% discount rate).</li>
   <li>Evaluation data: <code>eval/labels.json</code>, <code>eval/results/*.json</code>, <code>eval/RESULTS.md</code>. Tests: <code>tests/</code>.</li>
 </ul>
