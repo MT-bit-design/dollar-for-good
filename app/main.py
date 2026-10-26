@@ -84,6 +84,12 @@ async def upload_portfolio(file: UploadFile = File(...)):
     return await portfolio.assess(rows)
 
 
+@app.get("/api/ai_safety")
+def ai_safety():
+    import json
+    return json.loads((config.DATA_DIR / "ai_safety.json").read_text(encoding="utf-8"))
+
+
 @app.get("/api/sample.csv", response_class=PlainTextResponse)
 def sample_csv():
     return (config.DATA_DIR / "sample_portfolio.csv").read_text(encoding="utf-8")

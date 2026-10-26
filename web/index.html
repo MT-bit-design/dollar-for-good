@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dollar for Good · Charity Impact Tool</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2244%22 fill=%22none%22 stroke=%22%231f6f5c%22 stroke-width=%2212%22/%3E%3Cpath d=%22M50 6a44 44 0 0 1 0 88z%22 fill=%22%231f6f5c%22/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22none%22 stroke=%22%231c3d5a%22 stroke-width=%228%22/%3E%3Cpath d=%22M50 8a42 42 0 0 1 0 84z%22 fill=%22%231c3d5a%22/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header class="top">
     <div class="brand">
-      <span class="logo" aria-hidden="true">◐</span>
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 3a17 17 0 0 1 0 34z" fill="currentColor"/></svg>
       <div>
         <h1>Dollar for Good</h1>
         <p class="tag">How much good does each dollar do? Sourced numbers, plain math, no guesses.</p>
@@ -19,63 +19,80 @@
     <nav class="tabs" role="tablist">
       <button class="tab active" data-tab="donor" role="tab">Compare charities</button>
       <button class="tab" data-tab="funder" role="tab">Check my portfolio</button>
+      <button class="tab" data-tab="aisafety" role="tab">AI safety</button>
       <button class="tab" data-tab="method" role="tab">How it works</button>
     </nav>
   </header>
 
   <main>
-    <!-- DONOR VIEW -->
+    <!-- COMPARE -->
     <section id="tab-donor" class="panel">
+      <div class="intro">
+        <h2>The idea behind this tool</h2>
+        <p>Some giving does far more good per dollar than other giving. This tool helps you see where a donation goes furthest, using published evidence and showing where every number comes from.</p>
+        <p>Effective altruism is the movement that uses evidence to find where giving helps most. The Centre for Effective Altruism describes it as
+          “a philosophy and movement that encourages people to combine compassion and care with evidence and reason to find the most effective ways to help others.”
+          <span class="cite">(<a href="https://www.centreforeffectivealtruism.org/" target="_blank" rel="noopener noreferrer">centreforeffectivealtruism.org</a>, accessed 2026-10-26)</span></p>
+        <p class="note"><b>A limit to keep in mind.</b> This method favors causes that are easy to measure. Work like policy change or AI safety is hard to put a number on, so it is hard to rank here. Not being ranked here does not mean a cause matters less.</p>
+      </div>
+
       <h2 class="step">1. Pick a cause</h2>
       <div id="cause-cards" class="cause-cards"></div>
 
       <div id="cause-detail" hidden>
-        <div class="bench card">
+        <div class="bench">
           <div>
             <div class="eyebrow">Benchmark for this cause</div>
             <div class="bench-value" id="bench-value"></div>
             <div class="bench-label" id="bench-label"></div>
+            <div class="bench-range" id="bench-range"></div>
           </div>
           <div class="bench-src" id="bench-src"></div>
         </div>
+        <p class="note" id="cause-caveat" hidden></p>
 
         <h2 class="step">2. Charities ranked by good per dollar</h2>
         <p class="hint" id="rank-hint"></p>
-        <p class="caveat" id="cause-caveat" hidden></p>
-        <div class="table-wrap"><table class="rank" id="rank-table"></table></div>
+        <div id="groups"></div>
 
-        <div id="nc-wrap">
+        <div id="prog-wrap" hidden>
+          <h3>Program types</h3>
+          <p class="hint">General estimates for a kind of program, not for one charity. Shown for reference and never ranked with charities.</p>
+          <div class="table-wrap"><table class="rank" id="prog-table"></table></div>
+        </div>
+
+        <div id="nc-wrap" hidden>
           <h3>Can't compute yet</h3>
-          <p class="hint">These charities are listed, not ranked. We could not find a sourced number in this cause's unit, and we never guess.</p>
+          <p class="hint">These charities are listed, not ranked, because there is no sourced number in this cause's measure. Nothing is guessed.</p>
           <ul id="nc-list" class="nc-list"></ul>
         </div>
       </div>
 
       <div class="card research" id="research-card">
-        <h2 class="step">Research a charity that isn't listed</h2>
-        <p class="hint">Our research agent reads the charity's website (and known evaluators), quotes the figure it finds, and our code checks that the quote is really on the page before doing the math.</p>
+        <h2 class="step">Look up a charity that isn't listed</h2>
+        <p class="hint">A research assistant reads the charity's website and known evaluator sites and copies the published figure it finds. The app then checks that the quote is really on the page before doing any math.</p>
         <form id="research-form" class="row-form">
           <label>Charity name <input name="name" required maxlength="120" placeholder="e.g. One Acre Fund"></label>
           <label>Website <input name="website" required maxlength="300" placeholder="https://..."></label>
           <label>Cause
             <select name="cause">
-              <option value="">Let the agent decide</option>
+              <option value="">Work it out from the site</option>
               <option value="health">Health</option>
               <option value="poverty">Poverty and cash transfers</option>
               <option value="education">Education</option>
               <option value="climate">Climate</option>
             </select>
           </label>
-          <button class="primary" type="submit">Research</button>
+          <button class="primary" type="submit">Look up</button>
         </form>
         <div id="research-out"></div>
       </div>
     </section>
 
-    <!-- FUNDER VIEW -->
+    <!-- PORTFOLIO -->
     <section id="tab-funder" class="panel" hidden>
       <h2 class="step">Upload the charities you fund</h2>
-      <p class="hint">A CSV with columns <code>name, cause, website, amount_granted_usd, cost_usd, outcome_amount</code>. Only <code>name</code> is required. If you have your own cost and outcome numbers, we use them; otherwise we use our sourced table, then the research agent (up to 10 rows per upload).</p>
+      <p class="hint">A CSV file with the columns <code>name, cause, website, amount_granted_usd, cost_usd, outcome_amount</code>. Only <code>name</code> is required. Your own cost and outcome numbers are used first, then the sourced table, then the research assistant (for up to 10 charities per upload).</p>
       <div class="upload-row">
         <label class="file-btn">Choose CSV<input type="file" id="csv-file" accept=".csv,text/csv"></label>
         <button class="primary" id="csv-go" disabled>Check portfolio</button>
@@ -86,30 +103,45 @@
       <div id="portfolio-out"></div>
     </section>
 
-    <!-- METHOD -->
+    <!-- AI SAFETY -->
+    <section id="tab-aisafety" class="panel" hidden>
+      <h2 class="step">AI safety</h2>
+      <p class="note" id="ais-note"></p>
+      <ul id="ais-list" class="org-list"></ul>
+      <p class="hint">Descriptions are each organization's own words from its home page, shown as written. Listing here is not a recommendation.</p>
+    </section>
+
+    <!-- HOW IT WORKS -->
     <section id="tab-method" class="panel" hidden>
-      <div class="card prose">
+      <div class="prose">
+        <h2>The idea</h2>
+        <p>Some giving does far more good per dollar than other giving. Effective altruism is the movement that uses evidence to find where giving helps most. The Centre for Effective Altruism describes it as
+          “a philosophy and movement that encourages people to combine compassion and care with evidence and reason to find the most effective ways to help others.”
+          <span class="cite">(<a href="https://www.centreforeffectivealtruism.org/" target="_blank" rel="noopener noreferrer">centreforeffectivealtruism.org</a>, accessed 2026-10-26)</span></p>
+        <p class="note"><b>The honest limit.</b> Measuring good per dollar favors causes that are easy to measure, like health or income. Work like policy change or AI safety is hard to put a number on, so it is hard to rank. Not being ranked here does not mean a cause matters less.</p>
+
         <h2>How the numbers work</h2>
         <table class="method">
-          <thead><tr><th>Cause</th><th>Unit</th><th>Formula</th><th>Better is</th></tr></thead>
+          <thead><tr><th>Cause</th><th>Measure</th><th>Formula</th><th>Better is</th></tr></thead>
           <tbody>
-            <tr><td>Health</td><td>Cost per DALY averted</td><td>cost ÷ DALYs averted</td><td>lower</td></tr>
+            <tr><td>Health</td><td>Cost per DALY averted (one year of healthy life)</td><td>cost ÷ DALYs averted</td><td>lower</td></tr>
             <tr><td>Poverty and cash transfers</td><td>Income gained per dollar</td><td>income gained ÷ cost</td><td>higher</td></tr>
             <tr><td>Education</td><td>Cost per extra year of learning</td><td>cost ÷ learning years</td><td>lower</td></tr>
-            <tr><td>Climate</td><td>Cost per tonne CO₂e</td><td>cost ÷ tonnes averted</td><td>lower</td></tr>
+            <tr><td>Climate</td><td>Cost per tonne of CO₂ avoided</td><td>cost ÷ tonnes avoided</td><td>lower</td></tr>
           </tbody>
         </table>
-        <p><b>“× the benchmark”</b> always means “how many times as much good per dollar as the benchmark.” Above 1× beats the bar.</p>
-        <h3>Rules we never break</h3>
+        <p><b>“× the benchmark”</b> always means how many times as much good per dollar as the benchmark. Above 1× beats the bar.</p>
+        <p><b>Ranges.</b> A range is shown only when the source itself publishes one. Otherwise the table says “no range published”.</p>
+        <p><b>One measure at a time.</b> Charities are ranked only against others measured the same way. General program types are shown separately.</p>
+
+        <h2>Rules this tool follows</h2>
         <ul>
-          <li>Every number has a source link, a date, and the exact quote it came from. If the number isn't in its own quote, we don't use it.</li>
-          <li>If we can't source a number, it is marked missing. We never guess.</li>
-          <li>All math is done by plain code. The AI model only finds and quotes; it never calculates.</li>
-          <li>Website text is untrusted. The agent is told to ignore any instructions inside pages, and our code rejects any quote that isn't word-for-word on a page it actually fetched.</li>
-          <li>Each research run has hard caps on model calls, page fetches and tokens, plus a daily token budget.</li>
+          <li>Every number has a source link, a date, and the exact quote it came from. A number that is not in its own quote is not used.</li>
+          <li>A number that can't be sourced is marked missing. Nothing is guessed.</li>
+          <li>All math is done by plain code. The AI model only finds and quotes figures; it never calculates.</li>
+          <li>Website text is treated as untrusted. Instructions hidden in pages are ignored, and a quote that isn't word for word on a page that was actually opened is rejected.</li>
+          <li>Each lookup has hard limits on model calls, pages opened and tokens, plus a daily token budget. Browsing the rankings never uses the AI model.</li>
         </ul>
-        <h3>Read the caveats</h3>
-        <p>Estimates come from different evaluators, years and methods. Climate advocacy estimates are highly uncertain expected values. Use the ranking as a starting point for questions, not a final verdict.</p>
       </div>
     </section>
   </main>

@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
 <style>
-  :root { --brand:#1f6f5c; --soft:#e5f2ee; --ink:#1d2433; --muted:#5b6475; --warn:#fbf1d9; --bad:#fbe7e3; }
-  .reveal { font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); font-size: 30px; }
-  .reveal h1, .reveal h2 { font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); text-transform: none; letter-spacing: -.01em; }
+  :root { --brand:#1c3d5a; --soft:#f4f5f7; --ink:#1f2328; --muted:#5f6670; --warn:#f4f5f7; --bad:#f4f5f7; }
+  .reveal { font-family: Calibri, sans-serif; color: var(--ink); font-size: 30px; }
+  .reveal h1, .reveal h2 { font-family: Calibri, sans-serif; color: var(--ink); text-transform: none; letter-spacing: -.01em; }
   .reveal h1 { font-size: 2.3em; }
   .reveal h2 { font-size: 1.45em; margin-bottom: .5em; }
   .reveal h2 .tag { color: var(--brand); }
@@ -25,9 +25,9 @@
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: left; }
   .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   .card { background: #fff; border: 1px solid #e3e6ec; border-radius: 14px; padding: 18px 20px; text-align: left; }
-  .card.soft { background: var(--soft); border-color: #cfe5de; }
-  .card.warn { background: var(--warn); border-color: #ecd8a4; }
-  .card.bad { background: var(--bad); border-color: #f0c9c1; }
+  .card.soft { background: var(--soft); border-color: #e2e4e8; }
+  .card.warn { background: var(--warn); border-color: #e2e4e8; }
+  .card.bad { background: var(--bad); border-color: #e2e4e8; }
   .card .k { font-size: 1.6em; font-weight: 700; color: var(--brand); }
   .card .l { font-size: .6em; color: var(--muted); }
   .reveal table { font-size: .72em; margin: 0 auto; }
@@ -97,7 +97,7 @@
     <img class="shot" src="{{img:crop_donor}}">
     <div>
       <img class="shot" src="{{img:research_run}}">
-      <p class="small">A live run for <b>One Acre Fund</b>: 3 page fetches (one 404), the verified quote, <b>$5.70 per $1 = 2.3× the cash benchmark</b>. 9,052 input tokens (6,573 cached), 190 output, 7.2 s.</p>
+      <p class="small">A live run for <b>One Acre Fund</b>: 3 pages opened (one missing), the checked quote, <b>$5.70 per $1 = 2.3× the cash benchmark</b>. 9,050 input tokens (5,539 cached), 192 output, 7.3 s.</p>
     </div>
   </div>
 </section>
@@ -149,7 +149,7 @@
     <div class="card warn"><b>Invented numbers</b><p class="small">The quote must be word for word on a page fetched in this run. The number must be inside the quote ("$9" ≠ "$92"), and the unit must fit the cause.</p></div>
     <div class="card soft"><b>Loops and overspending</b><p class="small">≤6 calls, ≤4 fetches and ≤60k tokens per run, a 1M-token daily budget checked before every call, and the key redacted everywhere.</p></div>
   </div>
-  <div class="quote" style="margin-top:18px">Live test, real gpt-6-luna on an injected page: <b>status not_computable · suspicious_instructions_seen: true · injection_flagged_by_code: [helpinghands.org]</b>. A scripted model that <i>obeys</i> the attack is still overruled by code. 94 offline tests and 3 live tests pass.</div>
+  <div class="quote" style="margin-top:18px">Live test, real gpt-6-luna on an injected page: <b>status not_computable · suspicious_instructions_seen: true · injection_flagged_by_code: [helpinghands.org]</b>. A scripted model that <i>obeys</i> the attack is still overruled by code. 102 offline tests and 3 live tests pass.</div>
 </section>
 
 <!-- 9 Impact -->
@@ -179,13 +179,14 @@
         <li>Sources differ by year and method. Climate advocacy estimates are very uncertain.</li>
         <li>The tool checks quotes, not truth. Charities can contradict themselves.</li>
         <li>Recall is 82%: it sometimes refuses a real figure, which is the safe way to fail.</li>
+        <li>It favors what is easy to measure. AI safety is listed in its own tab, not ranked.</li>
       </ul>
     </div>
     <div>
       <p><b>With another month</b></p>
       <ul class="small" style="font-size:.66em">
         <li>Scheduled re-checks of every source and quote</li>
-        <li>Uncertainty ranges instead of points</li>
+        <li>Uncertainty bands for every figure (only 5 of 20 sources publish a range today)</li>
         <li>Read annual-report PDFs</li>
         <li>Trust tiers: independent, peer-reviewed, self-reported</li>
         <li>Pilot with a real foundation's grant list</li>

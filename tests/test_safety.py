@@ -411,3 +411,27 @@ def test_injected_page_gets_no_retry(monkeypatch):
         ("final", {"found": False}),
     ])
     assert calls["n"] == 2 and out["status"] == "not_computable"
+
+
+
+def test_donor_view_works_when_the_daily_budget_is_used_up(monkeypatch):
+    """Browsing and the sourced table never need the model, so they keep working at zero budget."""
+    from fastapi.testclient import TestClient
+    from app.main import app
+    config.USAGE_LOG.write_text(json.dumps({"day": date.today().isoformat(),
+                                            "input_tokens": config.DAILY_TOKEN_BUDGET * 2,
+                                            "output_tokens": 0}) + "\n", encoding="utf-8")
+    assert research.tokens_used_today() >= config.DAILY_TOKEN_BUDGET
+    client = TestClient(app)
+    assert client.get("/").status_code == 200
+    assert client.get("/api/status").status_code == 200
+    assert client.get("/api/ai_safety").json()["organizations"]
+    for cause in ("health", "poverty", "education", "climate"):
+        v = client.get(f"/api/cause/{cause}").json()
+        assert v["groups"] and v["groups"][0]["ranked"], cause
+    csv = b"name,cause\nGiveDirectly,poverty\nCool Earth,climate\n"
+    rows = client.post("/api/portfolio", files={"file": ("p.csv", csv, "text/csv")}).json()["rows"]
+    assert all(r["result"]["ok"] for r in rows)
+    monkeypatch.setattr(config, "has_api_key", lambda: True)
+    out = client.post("/api/analyze", json={"name": "X", "website": "https://x.org", "cause": "health"}).json()
+    assert out["status"] == "budget" and "daily research limit" in out["donor_reason"]

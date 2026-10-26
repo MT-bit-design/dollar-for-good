@@ -1,0 +1,59 @@
+{
+  "_about": "How each researched item is shown to donors. Research facts (numbers, sources, quotes) stay in data/research/. This file only adds wording, measures, and whether an entry is a charity or a general program type. Donor notes are one plain sentence: no first person, no numbers, no technical errors.",
+  "causes": {
+    "health": {
+      "explainer": "A DALY is one year of healthy life. Lower cost per DALY means more health for each dollar.",
+      "caveat": "Estimates come from different evaluators and years, and some are old, so treat small differences between charities as noise."
+    },
+    "poverty": {
+      "explainer": "Dollars of extra income or spending for poor households for each dollar given. Higher is better.",
+      "caveat": "Some figures are reported by the charities themselves, and they count benefits in different ways. GiveDirectly is the benchmark program itself."
+    },
+    "education": {
+      "explainer": "A learning-adjusted year is one extra year of school counted by how much children actually learn. Lower cost per year is better.",
+      "caveat": "Education studies measure results in different ways, so charities are only ranked against others that use the same measure."
+    },
+    "climate": {
+      "explainer": "One tonne of carbon dioxide kept out of the air. Lower cost per tonne is better.",
+      "caveat": "These are rough estimates for policy work, which their authors say to compare only by order of magnitude. The benchmark is the estimated harm of a tonne of carbon dioxide, not another charity."
+    }
+  },
+  "measures": {
+    "dalys": "DALYs averted",
+    "usd_benefit": "dollars of extra income or spending",
+    "lays": "learning-adjusted years of schooling",
+    "school_years_equiv": "equivalent years of schooling, estimated from test scores",
+    "attendance_years": "extra years of school attendance",
+    "tco2e": "tonnes of CO2 avoided"
+  },
+  "default_measure": {
+    "health": "dalys",
+    "poverty": "usd_benefit",
+    "education": "lays",
+    "climate": "tco2e"
+  },
+  "items": {
+    "angrist_2020_top_approaches": {"measure": "lays"},
+    "youth_impact_connected": {"measure": "lays"},
+    "camfed_tanzania": {"measure": "school_years_equiv"},
+    "deworm_the_world": {
+      "_cause": "education",
+      "kind": "program",
+      "display_name": "School-based deworming (general estimate)",
+      "measure": "attendance_years",
+      "program_note": "Evidence Action's Deworm the World Initiative runs this kind of program. The estimate is for deworming in general, not for one charity."
+    },
+    "conditional_cash_transfers": {
+      "kind": "program",
+      "display_name": "Conditional cash transfers (general)",
+      "donor_note": "The research reviewed gives a general judgement but no number, so this program type can't be ranked."
+    },
+    "helen_keller_intl_vas": {"donor_note": "Published estimates count lives saved rather than healthy years gained, so this charity can't be put on the same scale yet."},
+    "new_incentives": {"donor_note": "Published estimates count lives saved rather than healthy years gained, so this charity can't be put on the same scale yet."},
+    "health:deworm_the_world": {"donor_note": "No current estimate of healthy years gained per dollar has been published for this charity."},
+    "brac_ultra_poor_graduation": {"donor_note": "Published estimates disagree widely depending on how long the benefits are assumed to last, so no single number is shown."},
+    "pratham_tarl": {"donor_note": "Only an upper limit has been published, not a single estimate, so this charity can't be ranked."},
+    "educate_girls": {"donor_note": "No estimate of extra years of learning per dollar has been published for this charity."},
+    "terra_praxis": {"donor_note": "No estimate of carbon dioxide avoided per dollar has been published for this charity."}
+  }
+}

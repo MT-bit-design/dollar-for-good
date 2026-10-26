@@ -135,17 +135,17 @@ def fetch_page(url: str, charity_website: str | None = None, *, check_dns: bool 
                 if not ok:
                     raise FetchError(f"Redirected off the allowed sites: {why}")
                 if r.status_code >= 400:
-                    raise FetchError(f"The site answered with HTTP {r.status_code}.")
+                    raise FetchError("The page could not be opened.")
                 ctype = r.headers.get("content-type", "")
                 if "html" not in ctype and "text" not in ctype:
-                    raise FetchError(f"Not a web page (content type {ctype or 'unknown'}).")
+                    raise FetchError("The link is not a web page.")
                 body = b""
                 for chunk in r.iter_bytes():
                     body += chunk
                     if len(body) > config.FETCH_MAX_BYTES:
                         break
     except httpx.HTTPError as e:
-        raise FetchError(f"Could not fetch the page ({type(e).__name__}).") from e
+        raise FetchError("The page could not be reached.") from e
     text = clean_text(body.decode("utf-8", errors="replace"))
     truncated = len(text) > config.PAGE_TEXT_LIMIT
     return Page(url=url, text=text[: config.PAGE_TEXT_LIMIT], truncated=truncated)

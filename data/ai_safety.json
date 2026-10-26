@@ -1,0 +1,11 @@
+{
+  "_about": "AI safety organizations are listed, not ranked. Descriptions are each organization's own one-line description (the description tag of its home page), fetched on the accessed date.",
+  "note": "There is no agreed cost-per-outcome measure for AI safety work, like cost per DALY or per tonne of carbon dioxide, so these organizations are listed, not ranked. Not being ranked does not mean the work matters less.",
+  "organizations": [
+    {"name": "Center for AI Safety (CAIS)", "website": "https://safe.ai/", "own_words": "Reducing societal-scale risks from AI by advancing safety research, building the field of AI safety researchers, and promoting safety standards.", "accessed": "2026-10-26"},
+    {"name": "FAR.AI", "website": "https://www.far.ai/", "own_words": "FAR.AI is an AI safety nonprofit advancing technical research across robustness, deception, and red-teaming to ensure AI systems remain safe and beneficial.", "accessed": "2026-10-26"},
+    {"name": "Machine Intelligence Research Institute (MIRI)", "website": "https://intelligence.org/", "own_words": "The Machine Intelligence Research Institute (MIRI) is a nonprofit focused on preventing human extinction from artificial superintelligence.", "accessed": "2026-10-26"},
+    {"name": "METR", "website": "https://metr.org/", "own_words": "METR is a research nonprofit that evaluates frontier AI models to inform the public about their risks and capabilities.", "accessed": "2026-10-26"},
+    {"name": "Redwood Research", "website": "https://www.redwoodresearch.org/", "own_words": "Pioneering threat assessment and mitigation for AI systems", "accessed": "2026-10-26"}
+  ]
+}

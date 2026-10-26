@@ -23,18 +23,18 @@
     },
     {
       "round": 2,
-      "set": "B (education)",
+      "set": "B (climate)",
       "with_tool": true,
       "minutes": null,
       "hit_cap": null,
       "top_pick": null,
       "top_pick_correct": null,
       "order_correct": null,
-      "order_out_of": 3,
+      "order_out_of": 4,
       "unknowns_flagged": null,
       "cited_source_for_top_pick": null,
       "confidence_1to5": null,
-      "opened_quote_and_notes": null
+      "opened_show_details": null
     }
   ],
   "round3_reaction": null,

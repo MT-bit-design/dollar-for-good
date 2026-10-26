@@ -314,9 +314,37 @@ def _clean_input(s: str | None, limit: int) -> str:
     return normalize(s or "")[:limit]
 
 
+def plain_reason(out: dict) -> str | None:
+    """One plain sentence for donors. No first person, no numbers, no technical errors.
+    The detailed reason stays in out["reason"] and the trace, shown only under "show details"."""
+    status = out.get("status")
+    reason = (out.get("reason") or "").lower()
+    if status == "computed":
+        return None
+    if status == "budget":
+        return ("The daily research limit has been reached, so new charities can't be looked up until "
+                "tomorrow. Charities already in the table still work.")
+    if status == "error":
+        return "The research stopped before it finished, so no estimate is shown."
+    if "manipulating an ai" in reason or out.get("injection_flagged_by_code"):
+        return "The charity's page contained text aimed at AI tools, so its numbers were not trusted."
+    if not (out.get("extraction") or {}).get("found"):
+        return "No published estimate in this cause's measure was found on the charity's site or on known evaluator sites."
+    if "unit" in reason or "figure found is for" in reason or "percent" in reason:
+        return "The estimate found uses a different measure, so it can't be compared here."
+    return "An estimate was found but could not be checked against its source, so it is not shown."
+
+
 async def analyze_charity(name: str, website: str | None, cause: str | None = None,
                           *, use_cache: bool = True, agent=None) -> dict:
     """Research one charity end to end. Always returns a dict; never raises for bad data."""
+    out = await _analyze_charity(name, website, cause, use_cache=use_cache, agent=agent)
+    out["donor_reason"] = plain_reason(out)
+    return out
+
+
+async def _analyze_charity(name: str, website: str | None, cause: str | None = None,
+                           *, use_cache: bool = True, agent=None) -> dict:
     name = _clean_input(name, 120)
     website = _clean_input(website, 300) or None
     if cause is not None and cause not in calculator.CAUSES:

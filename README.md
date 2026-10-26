@@ -55,7 +55,8 @@ You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model
    Open **http://127.0.0.1:8000**. The footer shows whether the key was found.
 
 ## Using it
-- **Compare charities**: pick a cause card. You see the benchmark (with its source and quote), the ranked charities, and a "Can't compute yet" list with reasons. Open "Quote and notes" on any row to see exactly where the number came from.
+- **Compare charities**: a short note on the idea behind the tool (effective altruism) and its limits, then pick a cause card. Each card says in one line what its unit means. You see the benchmark (with its source and quote), charities ranked only against others measured the same way, the published range where the source gives one, general program types in their own section, and a "Can't compute yet" list with a plain reason for each. "Show details" on any row shows exactly where the number came from.
+- **AI safety**: a few organizations listed in their own words, not ranked, because there is no agreed cost-per-outcome measure for this work.
 - **Research a charity that isn't listed**: enter a name and website. The research agent reads the site (and known evaluators), quotes a figure, and code verifies it. You see each step the agent took and the tokens and cost of the run.
 - **Check my portfolio**: press **Try the sample portfolio**, or upload your own CSV with columns
   `name, cause, website, amount_granted_usd, cost_usd, outcome_amount` (only `name` is required). Each row uses your own numbers if given, else the sourced table, else the research agent (up to 10 rows per upload). Sample file: `data/sample_portfolio.csv`.
@@ -64,7 +65,7 @@ You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model
 ```
 .venv\Scripts\python.exe -m pytest -q
 ```
-94 offline tests: calculator, sourcing rules, and safety (prompt injection, invented numbers, unsafe URLs, loops, token budget, key leaks, `.env` lookup). They use a scripted fake model, so they need no key and cost nothing.
+102 offline tests: calculator, sourcing rules, plain donor wording, one measure per ranking, and safety (prompt injection, invented numbers, unsafe URLs, loops, token budget, the donor view with the budget used up, key leaks, `.env` lookup). They use a scripted fake model, so they need no key and cost nothing.
 
 Live tests against the real model (cost a few cents of tokens):
 ```

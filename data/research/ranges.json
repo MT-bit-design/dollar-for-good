@@ -1,0 +1,260 @@
+{
+  "ranges": [
+    {
+      "id": "openphil_ghw_bar_2023",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://forum.effectivealtruism.org/posts/KuByzfn6yiKMWBKmr/our-planned-allocation-to-givewell-s-recommendations-for-the",
+      "accessed": "2026-10-26",
+      "note": "Post gives only '~$50' per DALY; it mentions the old bar (1100x-1200x) and a 0-30% wedge vs GiveWell's bar, but no $/DALY range."
+    },
+    {
+      "id": "openphil_ghw_bar_2021",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://forum.effectivealtruism.org/posts/uTSxcDzPLiifryqH6/technical-updates-to-our-global-health-and-wellbeing-cause",
+      "accessed": "2026-10-26",
+      "note": "Only $100/DALY for 1000x under new weights; '$50' under old moral weights is a unit change, and '~900-1,100x' is GiveWell's marginal cost-effectiveness, not a $/DALY range."
+    },
+    {
+      "id": "egger_2022_cash_transfer_multiplier",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://www.econometricsociety.org/publications/econometrica/2022/11/01/General-Equilibrium-Effects-of-Cash-Transfers-Experimental-Evidence-from-Kenya",
+      "accessed": "2026-10-26",
+      "note": "Journal page shows the abstract only (multiplier 2.5); no CI or alternative estimate on the page; full article/appendix not accessible there."
+    },
+    {
+      "id": "givedirectly_2019_local_spending_per_dollar",
+      "status": "stated",
+      "kind": "alternative_estimates",
+      "low": {
+        "cost_usd": 1,
+        "outcome_amount": 2.5
+      },
+      "high": {
+        "cost_usd": 1,
+        "outcome_amount": 2.6
+      },
+      "quote": "We estimate a local fiscal multiplier of 2.5. … $1 of cash delivered generated $2.60 in additional spending or income for the local economy.",
+      "source_url": "https://www.givedirectly.org/how-do-cash-transfers-impact-neighbors",
+      "accessed": "2026-10-26",
+      "note": "Same page gives the abstract's multiplier 2.5 and the summary's $2.60 per $1 delivered; not a statistical interval; may reflect different paper versions/definitions."
+    },
+    {
+      "id": "against_malaria_foundation",
+      "status": "stated",
+      "kind": "alternative_estimates",
+      "low": {
+        "cost_usd": 78,
+        "outcome_amount": 1
+      },
+      "high": {
+        "cost_usd": 95,
+        "outcome_amount": 1
+      },
+      "quote": "avert a DALY for approximately $78 in expectation. … Dividing $3,461 by 36.5, and rounding the result, we obtain $95.",
+      "source_url": "https://www.givingwhatwecan.org/reports/against-malaria-foundation",
+      "accessed": "2026-10-26",
+      "note": "Two calculations on the same page from the same $3,461 per death; $95 is the simpler discounted-life-years calculation. Not a confidence interval."
+    },
+    {
+      "id": "malaria_consortium_smc",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1186/s12936-025-05401-x&resultType=core&format=json",
+      "accessed": "2026-10-26",
+      "note": "Abstract gives only $130.16/DALY and says ICERs were robust in sensitivity analyses, but states no range; full-text sensitivity tables not in this source."
+    },
+    {
+      "id": "givedirectly",
+      "status": "stated",
+      "kind": "alternative_estimates",
+      "low": {
+        "cost_usd": 1,
+        "outcome_amount": 2.5
+      },
+      "high": {
+        "cost_usd": 1,
+        "outcome_amount": 2.6
+      },
+      "quote": "We estimate a local fiscal multiplier of 2.5. … $1 of cash delivered generated $2.60 in additional spending or income for the local economy.",
+      "source_url": "https://www.givedirectly.org/how-do-cash-transfers-impact-neighbors",
+      "accessed": "2026-10-26",
+      "note": "Same page gives 2.5 (abstract multiplier) and $2.60 per $1 delivered (summary); alternative statements, not a statistical interval."
+    },
+    {
+      "id": "village_enterprise",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://villageenterprise.org/blog/frequently-asked-questions-about-the-village-enterprise-development-impact-bond/",
+      "accessed": "2026-10-26",
+      "note": "Only the 3-year BCR of 140%; '88%' is a different program's benchmark and 'over five times' is a lifetime projection (different horizon), so not a range."
+    },
+    {
+      "id": "bandhan_tup_graduation",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://poverty-action.org/study/graduating-ultra-poor-india",
+      "accessed": "2026-10-26",
+      "note": "Page gives single cost (PPP $1,455) and benefit (PPP $6,298, 433% return); no interval or alternative estimate."
+    },
+    {
+      "id": "one_acre_fund",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://oneacrefund.org/impact/",
+      "accessed": "2026-10-26",
+      "note": "Page states only $5.7 SROI per $1 donor investment; no range or alternative estimate."
+    },
+    {
+      "id": "angrist_2020_top_approaches",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://cgdev.org/sites/default/files/how-improve-education-outcomes-most-efficiently-comparison-150-interventions-using-new.pdf",
+      "accessed": "2026-10-26",
+      "note": "'Around 3' LAYS per $100 is stated without an interval; 'up to 4' (India) and 'up to 10' (health) are category maxima, not bounds on this average."
+    },
+    {
+      "id": "epa_scc_2023_2pct",
+      "status": "stated",
+      "kind": "scenarios",
+      "low": {
+        "cost_usd": 120,
+        "outcome_amount": 1
+      },
+      "high": {
+        "cost_usd": 340,
+        "outcome_amount": 1
+      },
+      "quote": "Near-term rate 2.5% 2.0% 1.5% … 2020 120 190 340",
+      "source_url": "https://www.epa.gov/system/files/documents/2023-12/epa_scghg_2023_report_final.pdf",
+      "accessed": "2026-10-26",
+      "note": "Table ES.1 (cells): 2020 SC-CO2 at 2.5% / 2.0% / 1.5% near-term discount rates, 2020$ per tCO2. Discount-rate scenarios, not a probability interval."
+    },
+    {
+      "id": "founders_pledge_top_charities_under_10",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://www.founderspledge.com/research/climate-and-lifestyle-donations-and-offsetting",
+      "accessed": "2026-10-26",
+      "note": "Page states only an upper bound ('less than $10'); '$1 or less' refers to offset sellers' claims, not this estimate."
+    },
+    {
+      "id": "youth_impact_connected",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://poverty-action.org/building-resilient-education-systems-cost-effective-mobile-tutoring-philippines-and-beyond",
+      "accessed": "2026-10-26",
+      "note": "Page states a single 3.4 LAYS per $100 (cost ~$12/child); no range."
+    },
+    {
+      "id": "camfed_tanzania",
+      "status": "stated",
+      "kind": "scenarios",
+      "low": {
+        "cost_usd": 100,
+        "outcome_amount": 1.7
+      },
+      "high": {
+        "cost_usd": 100,
+        "outcome_amount": 2.4
+      },
+      "quote": "the impact is equivalent to an extra 1.7 years of schooling per $100 spent. … (to 2.4 additional years of schooling per $100 spent",
+      "source_url": "https://www.educ.cam.ac.uk/centres/real/downloads/REAL Policy Brief Cost-effectiveness Camfed A4_FINAL.pdf",
+      "accessed": "2026-10-26",
+      "note": "Low is the base estimate itself; upside scenarios are equity (2), sustainability (2.2) and scalability/replicability (2.4). The 90% CIs in Fig. 2 are in SD units, not years."
+    },
+    {
+      "id": "deworm_the_world",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://www.povertyactionlab.org/case-study/deworming-increase-school-attendance",
+      "accessed": "2026-10-26",
+      "note": "Education-file item. Page states a single 11.9 years per US$100; no range."
+    },
+    {
+      "id": "clean_air_task_force",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://assets.ctfassets.net/x5sq5djrgbwu/7eEpX4UcKNEy6LUDhf2B05/679c7b8c6e993bb8c08ee0a948b815b5/A_guide_to_the_changing_landscape_of_high-impact_climate_philanthropy.pdf",
+      "accessed": "2026-10-26",
+      "note": "No range for the USD 1/t average-project guess; $1.63/t (US) and $0.11/t (global) are for the 45Q project only, and '0.001 to 10 USD' is a generic illustration."
+    },
+    {
+      "id": "evergreen_collaborative",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://forum.effectivealtruism.org/posts/H3aKKezuaG4EZSsBu/climate-recommendations-in-ea-giving-green-and-founders",
+      "accessed": "2026-10-26",
+      "note": "Post gives only $0.54/tCO2e plus verbal caveats; no numeric range."
+    },
+    {
+      "id": "carbon180",
+      "status": "none_stated",
+      "kind": null,
+      "low": null,
+      "high": null,
+      "quote": null,
+      "source_url": "https://forum.effectivealtruism.org/posts/H3aKKezuaG4EZSsBu/climate-recommendations-in-ea-giving-green-and-founders",
+      "accessed": "2026-10-26",
+      "note": "Post gives only $0.66/tCO2e plus verbal caveats; no numeric range."
+    },
+    {
+      "id": "cool_earth",
+      "status": "stated",
+      "kind": "interval",
+      "low": {
+        "cost_usd": 0.65,
+        "outcome_amount": 1
+      },
+      "high": {
+        "cost_usd": 1.87,
+        "outcome_amount": 1
+      },
+      "quote": "we estimate that this figure will be no higher than $1.87/tCO2eq and no lower than $0.65/tCO2eq",
+      "source_url": "https://www.givingwhatwecan.org/report/cool-earth/",
+      "accessed": "2026-10-26",
+      "note": "Bounds for the $1.34/t directly-protected-forest figure (page also gives $0.18-$0.71 around the $0.38 incl. shielded forest, a different scope)."
+    }
+  ]
+}

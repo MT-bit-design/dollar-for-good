@@ -86,18 +86,79 @@ def _benchmark(b: dict) -> dict:
     return b
 
 
+PRESENTATION = config.DATA_DIR / "presentation.json"
+RANGES = RESEARCH_DIR / "ranges.json"
+
+
+@lru_cache(maxsize=1)
+def presentation() -> dict:
+    return json.loads(PRESENTATION.read_text(encoding="utf-8"))
+
+
+def _present(item: dict) -> dict:
+    """Merge wording, measure and kind from presentation.json into one researched item."""
+    pres = presentation()
+    items = pres.get("items", {})
+    extra = dict(items.get(f"{item['cause']}:{item['id']}", {}))
+    plain = items.get(item["id"], {})
+    if plain.get("_cause") in (None, item["cause"]):
+        extra = {**plain, **extra}
+    extra.pop("_cause", None)
+    out = {**item, **extra}
+    out.setdefault("kind", "charity")
+    out.setdefault("measure", pres["default_measure"][item["cause"]])
+    out["measure_label"] = pres["measures"].get(out["measure"], out["measure"])
+    if out.get("display_name"):
+        out["research_name"], out["name"] = out.get("name"), out["display_name"]
+    return out
+
+
+def _range(item: dict, ranges: dict) -> dict | None:
+    """A published range, only if the source states it and both bounds are in its quote."""
+    r = ranges.get(item["id"])
+    if not r or r.get("status") != "stated" or not r.get("quote"):
+        return None
+    if r.get("source_url") and item.get("source_url") and r["source_url"] != item["source_url"]:
+        return None
+    vals = []
+    for side in ("low", "high"):
+        inp = r.get(side) or {}
+        if provenance_problems({"source_url": item.get("source_url"), "accessed": r.get("accessed"),
+                                "quote": r["quote"]}, [inp.get("cost_usd"), inp.get("outcome_amount")]):
+            return None
+        res = calculator.compute_metric(item["cause"], inp.get("cost_usd"), inp.get("outcome_amount"))
+        if not res.ok:
+            return None
+        vals.append(res.value)
+    lo, hi = sorted(vals)
+    return {"low": lo, "high": hi, "kind": r.get("kind"), "quote": r["quote"], "note": r.get("note"),
+            "display": (f"${lo:,.2f} to ${hi:,.2f} per $1" if item["cause"] == "poverty" else
+                        f"{calculator.format_metric(item['cause'], lo)} to {calculator.format_metric(item['cause'], hi)}")}
+
+
 @lru_cache(maxsize=1)
 def load() -> dict:
     benchmarks, charities = [], []
+    try:
+        raw_ranges = json.loads(RANGES.read_text(encoding="utf-8")).get("ranges", [])
+    except FileNotFoundError:
+        raw_ranges = []
+    ranges = {r["id"]: r for r in raw_ranges if r.get("id")}
     for f in sorted(RESEARCH_DIR.glob("*.json")):
+        if f == RANGES:
+            continue
         raw = json.loads(f.read_text(encoding="utf-8"))
         for b in raw.get("benchmarks", []):
             if b.get("cause") in calculator.CAUSES:
-                benchmarks.append(_benchmark(b))
+                b = _present(_benchmark(b))
+                b["range"] = _range(b, ranges) if b["status"] == "sourced" else None
+                benchmarks.append(b)
         for c in raw.get("charities", []):
             if c.get("cause") in calculator.CAUSES:
                 inp = c.get("inputs") or {}
-                charities.append(_check(c, [inp.get("cost_usd"), inp.get("outcome_amount")]))
+                c = _present(_check(c, [inp.get("cost_usd"), inp.get("outcome_amount")]))
+                c["range"] = _range(c, ranges) if c["status"] == "sourced" else None
+                charities.append(c)
     return {"benchmarks": benchmarks, "charities": charities}
 
 
@@ -113,20 +174,73 @@ def benchmark_value(cause: str) -> float | None:
     return b.get("value") if b and b.get("status") == "sourced" else None
 
 
+def benchmark_measure(cause: str) -> str:
+    b = primary_benchmark(cause)
+    return b["measure"] if b else presentation()["default_measure"][cause]
+
+
+def comparable(item: dict) -> bool:
+    """Only items in the benchmark's own measure are compared with it."""
+    return item.get("measure", benchmark_measure(item["cause"])) == benchmark_measure(item["cause"])
+
+
+DIFFERENT_MEASURE = {"ok": False, "times_benchmark": None, "band": None, "label": None,
+                     "reason": "Uses a different measure from the benchmark, so it is not compared."}
+
+
+def _decorate(cause: str, row: dict) -> dict:
+    row["display"] = calculator.format_metric(cause, row["result"]["value"])
+    row["range_display"] = row["range"]["display"] if row.get("range") else None
+    if not row["result"]["ok"]:
+        row["donor_note"] = row.get("donor_note") or "No published estimate in this cause's measure was found."
+        row["details"] = row["result"].get("reason")
+    return row
+
+
 def cause_view(cause: str) -> dict:
-    """Everything the donor view needs for one cause, computed in plain code."""
+    """Everything the donor view needs for one cause, computed in plain code.
+
+    Charities are ranked only against others in the same measure. General program types are
+    listed separately and never ranked with charities.
+    """
     spec = calculator.CAUSES[cause]
-    data = load()
+    pres = presentation()
+    items = [c for c in load()["charities"] if c["cause"] == cause]
+    charities = [c for c in items if c["kind"] != "program"]
+    programs = [c for c in items if c["kind"] == "program"]
     bench_val = benchmark_value(cause)
-    ranking = calculator.rank_charities(cause, data["charities"], bench_val)
-    for group in ranking.values():
-        for row in group:
-            row["display"] = calculator.format_metric(cause, row["result"]["value"])
+    bench_measure = benchmark_measure(cause)
+
+    measures = [bench_measure] + sorted({c["measure"] for c in charities} - {bench_measure})
+    groups, not_computable = [], []
+    for m in measures:
+        ranking = calculator.rank_charities(cause, [c for c in charities if c["measure"] == m],
+                                            bench_val if m == bench_measure else None)
+        for row in ranking["ranked"]:
+            _decorate(cause, row)
+            if m != bench_measure:
+                row["position"] = dict(DIFFERENT_MEASURE)
+        not_computable += [_decorate(cause, r) for r in ranking["not_computable"]]
+        if ranking["ranked"]:
+            groups.append({"measure": m, "measure_label": pres["measures"].get(m, m),
+                           "compared_to_benchmark": m == bench_measure, "ranked": ranking["ranked"]})
+
+    prog_rows = calculator.rank_charities(cause, programs, None)
+    program_list = [_decorate(cause, r) for r in prog_rows["ranked"] + prog_rows["not_computable"]]
+    for r in program_list:
+        r.pop("rank", None)
+        r.pop("position", None)
+
     return {
         "cause": cause, "label": spec.label, "metric_label": spec.metric_label,
         "lower_is_better": spec.lower_is_better,
+        "explainer": pres["causes"][cause]["explainer"], "caveat": pres["causes"][cause]["caveat"],
         "benchmark": primary_benchmark(cause),
         "benchmark_display": calculator.format_metric(cause, bench_val),
-        "references": [b for b in data["benchmarks"] if b["cause"] == cause and b.get("role") != "primary"],
-        **ranking,
+        "benchmark_measure_label": pres["measures"].get(bench_measure, bench_measure),
+        "references": [b for b in load()["benchmarks"] if b["cause"] == cause and b.get("role") != "primary"],
+        "groups": groups,
+        "ranked": [r for g in groups if g["compared_to_benchmark"] for r in g["ranked"]],
+        "not_computable": not_computable,
+        "programs": program_list,
     }

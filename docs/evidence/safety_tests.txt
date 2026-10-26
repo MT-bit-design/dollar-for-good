@@ -55,4 +55,5 @@ test_poverty_quote_must_describe_income_per_dollar[an estimated benefit-cost rat
 test_poverty_quote_must_describe_income_per_dollar[generated 2.5x local economic activity in rural Kenya-True] PASSED
 test_failed_check_gets_one_retry_then_succeeds PASSED
 test_injected_page_gets_no_retry PASSED
-============================= 57 passed in 2.86s ==============================
+test_donor_view_works_when_the_daily_budget_is_used_up PASSED
+============================= 58 passed in 2.96s ==============================

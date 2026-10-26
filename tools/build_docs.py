@@ -33,7 +33,7 @@ USER_TEST = ROOT / "docs" / "user_test" / "results.json"
 
 PENDING_REPORT = """<div class="todo"><b>To be added before submission.</b> Michael will run the user test in
   <code>docs/user_test/user_test_kit.html</code> with a real donor or program officer: a timed ranking task without the
-  tool (5 poverty charities), then with it (5 education charities), plus an interview. Results go in
+  tool (5 poverty charities), then with it (5 climate charities), plus an interview. Results go in
   <code>docs/user_test/results.json</code> and appear here when the report is rebuilt.
   No user result is claimed in this report until then.</div>"""
 PENDING_SLIDE = '<li class="muted">Real user test: to be added (timed, before and after, with a quote).</li>'

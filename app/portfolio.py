@@ -85,6 +85,8 @@ async def assess_row(row: dict, allow_agent: bool, sem: asyncio.Semaphore) -> di
             out["display"] = calculator.format_metric(cause_, res.value)
             out["position"] = calculator.compare_to_benchmark(
                 cause_, res.value, data.benchmark_value(cause_)).to_dict()
+        else:
+            out.setdefault("donor_note", res.reason)
         return out
 
     # 1. Numbers in the funder's own file come first.
@@ -104,20 +106,26 @@ async def assess_row(row: dict, allow_agent: bool, sem: asyncio.Semaphore) -> di
                                             inp.get("outcome_unit"))
         else:
             res = calculator.MetricResult(False, None, None, cur.get("missing_reason") or "No sourced figure.")
-        return finish(cur["cause"], res, "sourced_table",
-                      {"source_url": cur.get("source_url"), "source_date": cur.get("source_date"),
-                       "quote": cur.get("quote")})
+        if cur["status"] != "sourced":
+            out["donor_note"] = cur.get("donor_note") or "No published estimate in this cause's measure was found."
+        finish(cur["cause"], res, "sourced_table",
+               {"source_url": cur.get("source_url"), "source_date": cur.get("source_date"),
+                "quote": cur.get("quote"), "range_display": (cur.get("range") or {}).get("display")})
+        if res.ok and not data.comparable(cur):
+            out["position"] = dict(data.DIFFERENT_MEASURE)
+        return out
 
     # 3. Ask the research agent, if there is a website and budget.
     if not row["website"]:
         return finish(cause, calculator.MetricResult(False, None, None,
-                      "Not in our sourced table and no website given, so nothing to research."), "none")
+                      "Not in the sourced table and no website was given, so there is nothing to look up."), "none")
     if not allow_agent:
+        out["donor_note"] = "Skipped because each upload looks up a limited number of new charities."
         return finish(cause, calculator.MetricResult(False, None, None,
                       f"Skipped: only {config.MAX_AGENT_ROWS_PER_UPLOAD} rows per upload are researched."), "none")
     if not config.has_api_key():
         return finish(cause, calculator.MetricResult(False, None, None,
-                      "Research agent unavailable: no API key set."), "none")
+                      "The research assistant is switched off because no API key is set."), "none")
     async with sem:
         r = await research.analyze_charity(row["name"], row["website"], cause)
     cause_ = r.get("cause") or cause
@@ -125,6 +133,8 @@ async def assess_row(row: dict, allow_agent: bool, sem: asyncio.Semaphore) -> di
                                              "suspicious_instructions_seen")},
              "source_url": (r.get("extraction") or {}).get("source_url"),
              "quote": (r.get("extraction") or {}).get("quote")}
+    if r.get("donor_reason"):
+        out["donor_note"] = r["donor_reason"]
     if r.get("status") == "computed":
         res = calculator.MetricResult(**r["result"])
     else:
