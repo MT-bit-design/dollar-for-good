@@ -98,3 +98,6 @@ The data set is small (one JSON file per pair of causes), so there is no separat
 - The sourced table is small (21 charities, 13 with usable numbers; 9 benchmarks, 7 sourced), and estimates come from different evaluators, years and methods. Climate advocacy figures are highly uncertain expected values.
 - A charity's own site can state conflicting figures. The agent verifies that a quote is real, not that the charity's claim is right.
 - Dollar costs use the per-token rates in `app/config.py` (`PRICE_PER_M_*`). Check them against the current gpt-6-luna price list.
+
+## User test
+`docs/user_test/user_test_kit.html` is a printable 5-page kit: facilitator script, two timed ranking rounds (without and with the tool), interview questions and an answer key. Record results in `docs/user_test/results.json`, then run `.\.venv\Scripts\python.exe tools/build_docs.py`; the report's user-test section and slide 9 are generated from that file, and anything left `null` shows as "not measured".

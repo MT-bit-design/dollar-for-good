@@ -1,0 +1,52 @@
+{
+  "completed": false,
+  "_how_to": "Fill this in after the session, set completed to true, then run tools/build_docs.py. Use null for anything not measured. Never guess a value.",
+  "date": null,
+  "participant_role": null,
+  "participant_context": null,
+  "consent_to_quote": null,
+  "rounds": [
+    {
+      "round": 1,
+      "set": "A (poverty)",
+      "with_tool": false,
+      "minutes": null,
+      "hit_cap": null,
+      "top_pick": null,
+      "top_pick_correct": null,
+      "order_correct": null,
+      "order_out_of": 4,
+      "unknowns_flagged": null,
+      "cited_source_for_top_pick": null,
+      "confidence_1to5": null,
+      "used": null
+    },
+    {
+      "round": 2,
+      "set": "B (education)",
+      "with_tool": true,
+      "minutes": null,
+      "hit_cap": null,
+      "top_pick": null,
+      "top_pick_correct": null,
+      "order_correct": null,
+      "order_out_of": 3,
+      "unknowns_flagged": null,
+      "cited_source_for_top_pick": null,
+      "confidence_1to5": null,
+      "opened_quote_and_notes": null
+    }
+  ],
+  "round3_reaction": null,
+  "own_charities": {
+    "tried": false,
+    "names": [],
+    "outcome": null
+  },
+  "how_they_do_it_today": null,
+  "time_saved_estimate_per_year": null,
+  "would_use": null,
+  "most_confusing": null,
+  "quotes": [],
+  "screenshot": null
+}

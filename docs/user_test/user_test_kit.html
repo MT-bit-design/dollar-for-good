@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dollar for Good · User test kit</title>
+<style>
+  body { font-family: "Segoe UI", system-ui, sans-serif; color: #1d2433; line-height: 1.45; margin: 0; background: #f6f7f9; }
+  .sheet { max-width: 800px; margin: 24px auto; background: #fff; padding: 40px 52px; border-radius: 8px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 20px; color: #1f6f5c; margin: 0 0 6px; }
+  h3 { font-size: 15.5px; margin: 18px 0 6px; }
+  p, li { font-size: 14px; }
+  .who { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: #e5f2ee; color: #1f6f5c; margin-bottom: 8px; }
+  .who.key { background: #fbe7e3; color: #a33a2b; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 8px 0 14px; }
+  th, td { border: 1px solid #cdd2db; padding: 7px 8px; text-align: left; vertical-align: top; }
+  th { background: #f2f4f7; font-size: 12px; }
+  td.blank { height: 30px; }
+  .line { border-bottom: 1px solid #9aa1ae; height: 26px; margin: 4px 0; }
+  .box { border: 1px solid #cdd2db; border-radius: 6px; padding: 10px 12px; margin: 8px 0; font-size: 13.5px; }
+  .note { background: #fbf1d9; border-radius: 6px; padding: 9px 12px; font-size: 13px; }
+  .script { background: #f2f4f7; border-left: 4px solid #1f6f5c; padding: 8px 12px; font-size: 13.5px; font-style: italic; }
+  .scale span { display: inline-block; width: 28px; height: 28px; border: 1px solid #9aa1ae; border-radius: 50%; text-align: center; line-height: 28px; margin-right: 6px; font-size: 13px; }
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; padding: 0; max-width: none; break-after: page; }
+    p, li { font-size: 12.3px; margin: 3px 0; }
+    h3 { margin: 10px 0 4px; font-size: 14px; }
+    table { font-size: 11.8px; margin: 6px 0 10px; }
+    th, td { padding: 5px 7px; }
+    .box, .script, .note { font-size: 12.3px; padding: 7px 10px; margin: 6px 0; }
+    .line { height: 22px; }
+  }
+  @page { size: letter; margin: 0.5in; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: FACILITATOR GUIDE -->
+<div class="sheet">
+  <span class="who">Facilitator · Michael</span>
+  <h1>Dollar for Good: user test kit</h1>
+  <p>About 25 minutes with one person who gives or allocates money: a donor, a foundation or nonprofit staffer, or a student group treasurer. The goal is evidence for the report's Impact section: <b>time and answer quality without the tool vs. with it</b>, plus a quote.</p>
+
+  <h3>Before they arrive (5 min)</h3>
+  <ol>
+    <li>Start the app from the <code>final project</code> folder: <code>.\.venv\Scripts\python.exe run.py</code>, then open <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> and check it loads.</li>
+    <li>Have a second browser tab open on Google (and ChatGPT, if they normally use it) for Round 1.</li>
+    <li>Print pages 2–4 for the participant. Keep page 5 (the answer key) for yourself.</li>
+    <li>Have a phone timer ready, and a way to take screenshots.</li>
+  </ol>
+
+  <h3>Consent (say this first)</h3>
+  <div class="script">"This is a class project. I'll time you on two short tasks and ask a few questions. There are no wrong answers: I'm testing the tool, not you. Can I quote what you say in my report? I'll describe you by role only, for example 'a program officer at a small foundation', not by name."</div>
+  <p>Write down their role and whether they agreed to be quoted.</p>
+
+  <h3>Plan</h3>
+  <table>
+    <tr><th>Step</th><th>Time</th><th>What happens</th></tr>
+    <tr><td>Round 1: without the tool</td><td>10 min max</td><td>Set A (poverty charities). They use whatever they'd normally use: Google, charity sites, GiveWell, ChatGPT. <b>Don't show them the app yet.</b></td></tr>
+    <tr><td>Round 2: with the tool</td><td>10 min max</td><td>Set B (education charities), using only Dollar for Good. Give a 30-second tour first (see the script below).</td></tr>
+    <tr><td>Round 3: optional check</td><td>2 min</td><td>They open Poverty in the app and compare it with their Round 1 answer. Note their reaction.</td></tr>
+    <tr><td>Optional: their own charities</td><td>3 min</td><td>If they fund or give to real charities, type 2–5 of them into "Research a charity" or a quick CSV, and screenshot the result.</td></tr>
+    <tr><td>Interview</td><td>5 min</td><td>The questions on page 4.</td></tr>
+  </table>
+
+  <h3>Timing rules</h3>
+  <ul>
+    <li>Start the timer when they finish reading the task. Stop it when they say "done", or at 10 minutes, and record the time to the nearest half minute.</li>
+    <li>Don't help in Round 1. In Round 2, only answer "how do I use this button" questions.</li>
+    <li>Think-aloud is welcome. Write down anything that confuses them, word for word if you can.</li>
+  </ul>
+
+  <h3>Round 2 tour script (30 seconds)</h3>
+  <div class="script">"Pick a cause up top. The green box is the benchmark. Each row is a charity, ranked by good per dollar, with its source. 'Quote and notes' shows where the number came from. 'Can't compute yet' lists charities without a sourced number."</div>
+
+  <div class="note"><b>Honest-design note for the report:</b> Rounds 1 and 2 use different charity sets, so the second round can't benefit from memorizing answers. They also face a learning effect, since the second task feels more familiar. Both points go in the report's limits.</div>
+</div>
+
+<!-- PAGE 2: ROUND 1 -->
+<div class="sheet">
+  <span class="who">Participant · Round 1</span>
+  <h2>Round 1: poverty charities (without the tool)</h2>
+  <div class="box"><b>Task.</b> You have $1,000 to give to fight poverty. <b>Which of these five charities does the most good per dollar, measured as extra income for poor households for each $1 given?</b> Rank them from most to least, as best you can. If you can't find a number for one, say so. Use any website or tool you'd normally use. You have up to 10 minutes.</div>
+  <table>
+    <tr><th style="width:34%">Charity</th><th style="width:20%">Website</th><th>Your rank (1 = most good per $)</th><th>Number you found (if any)</th><th>Where you found it</th></tr>
+    <tr><td>One Acre Fund</td><td>oneacrefund.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>Bandhan (graduation program, India)</td><td>bandhan.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>GiveDirectly</td><td>givedirectly.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>Village Enterprise</td><td>villageenterprise.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>BRAC Ultra-Poor Graduation</td><td>brac.net</td><td class="blank"></td><td></td><td></td></tr>
+  </table>
+  <h3>How confident are you in your #1 pick?</h3>
+  <p class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span> &nbsp; (1 = a guess, 5 = I'd stake my donation on it)</p>
+  <h3>What did you use? (tick all)</h3>
+  <p>☐ Google &nbsp; ☐ Charity websites &nbsp; ☐ GiveWell / Giving What We Can &nbsp; ☐ Charity Navigator &nbsp; ☐ ChatGPT or another AI &nbsp; ☐ Other: ________</p>
+  <h3>Facilitator fills in</h3>
+  <table>
+    <tr><th>Time taken (min)</th><th>Hit the 10-min cap?</th><th>Noticed any charity had no clear number?</th><th>Cited a source for #1?</th></tr>
+    <tr><td class="blank"></td><td></td><td></td><td></td></tr>
+  </table>
+  <p style="font-size:12.5px">Notes / what confused them:</p>
+  <div class="line"></div><div class="line"></div><div class="line"></div>
+</div>
+
+<!-- PAGE 3: ROUND 2 -->
+<div class="sheet">
+  <span class="who">Participant · Round 2</span>
+  <h2>Round 2: education charities (with Dollar for Good)</h2>
+  <div class="box"><b>Task.</b> You have $1,000 to give to education. <b>Which of these five charities does the most good per dollar, measured as extra years of learning for each $1 given?</b> Rank them from most to least. If a charity can't be ranked, say so. Use only the Dollar for Good app. You have up to 10 minutes.</div>
+  <table>
+    <tr><th style="width:34%">Charity</th><th style="width:20%">Website</th><th>Your rank (1 = most good per $)</th><th>Number shown</th><th>Do you trust it? (Y / N / unsure)</th></tr>
+    <tr><td>Evidence Action: Deworm the World</td><td>evidenceaction.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>Youth Impact (ConnectEd)</td><td>youth-impact.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>CAMFED</td><td>camfed.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>Pratham (Teaching at the Right Level)</td><td>pratham.org</td><td class="blank"></td><td></td><td></td></tr>
+    <tr><td>Educate Girls</td><td>educategirls.ngo</td><td class="blank"></td><td></td><td></td></tr>
+  </table>
+  <h3>How confident are you in your #1 pick?</h3>
+  <p class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span> &nbsp; (1 = a guess, 5 = I'd stake my donation on it)</p>
+  <h3>Did you open "Quote and notes" for any charity?</h3>
+  <p>☐ Yes &nbsp; ☐ No</p>
+  <h3>Facilitator fills in</h3>
+  <table>
+    <tr><th>Time taken (min)</th><th>Hit the 10-min cap?</th><th>Spotted the 2 that can't be computed?</th><th>Read the caveat note?</th></tr>
+    <tr><td class="blank"></td><td></td><td></td><td></td></tr>
+  </table>
+  <h3>Round 3 (optional, 2 min): open Poverty in the app</h3>
+  <p style="font-size:13px">Their reaction when they compare the app with their Round 1 ranking:</p>
+  <div class="line"></div><div class="line"></div>
+  <h3>Optional: their own charities</h3>
+  <p style="font-size:13px">Charities tried, what the app said (computed, or can't compute and why), and whether that matched what they believed. Take a screenshot.</p>
+  <div class="line"></div><div class="line"></div>
+</div>
+
+<!-- PAGE 4: INTERVIEW -->
+<div class="sheet">
+  <span class="who">Interview · 5 minutes</span>
+  <h2>Questions (write down their exact words where you can)</h2>
+  <ol>
+    <li><b>Today:</b> When you decide where to give, or which grants to renew, how do you do it now? How long does it take, and what's frustrating about it?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>Trust:</b> Did you trust the numbers in Round 2 more, less, or the same as what you found in Round 1? Why?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>"Can't compute":</b> How did you feel when the app said it couldn't rank a charity? Helpful, or annoying?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>Use:</b> Would you use this for a real donation or grant decision? What would have to change first?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>Confusion:</b> What was the most confusing part of the app?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>Value:</b> If this saved you time, how much time would that be per year, and what is that time worth to you or your organization?</li>
+    <div class="line"></div><div class="line"></div>
+    <li><b>One sentence:</b> "If you described this tool to a friend, what would you say?" <i>(This is usually the best quote.)</i></li>
+    <div class="line"></div><div class="line"></div>
+  </ol>
+  <div class="note">Afterwards, fill in <code>docs/user_test/results.json</code> (see page 5), add any screenshot to <code>docs/screenshots/</code>, and run <code>.\.venv\Scripts\python.exe tools/build_docs.py</code>. The report and slides update automatically.</div>
+</div>
+
+<!-- PAGE 5: ANSWER KEY -->
+<div class="sheet">
+  <span class="who key">Facilitator only · answer key</span>
+  <h2>Answer key (from the app's sourced table, 26 Oct 2026)</h2>
+  <h3>Set A, poverty: income gained per $1 (benchmark: cash transfers, $2.50 per $1)</h3>
+  <table>
+    <tr><th>Rank</th><th>Charity</th><th>App value</th><th>Watch for</th></tr>
+    <tr><td>1</td><td>One Acre Fund</td><td>$5.70 per $1</td><td>Self-reported on the charity's own site, undated; it measures farm profit, not total income.</td></tr>
+    <tr><td>2</td><td>Bandhan graduation program</td><td>$4.33 per $1</td><td>2015 study page, in 2014 PPP dollars, including projected long-run benefits.</td></tr>
+    <tr><td>3</td><td>GiveDirectly</td><td>$2.50 per $1</td><td>This <i>is</i> the benchmark program (Egger et al. 2022 multiplier).</td></tr>
+    <tr><td>4</td><td>Village Enterprise</td><td>$1.40 per $1</td><td>Its own homepage also claims "$5.34 per $1", so its figures conflict. Someone who found $5.34 is not "wrong".</td></tr>
+    <tr><td>—</td><td>BRAC Ultra-Poor Graduation</td><td>Can't compute</td><td>Published figures range from $0.80 to $5.70 per $1 depending on assumptions. The ideal answer flags it as uncertain.</td></tr>
+  </table>
+  <h3>Set B, education: cost per extra year of learning (benchmark: $33.33)</h3>
+  <table>
+    <tr><th>Rank</th><th>Charity</th><th>App value</th><th>Watch for</th></tr>
+    <tr><td>1</td><td>Deworm the World</td><td>$8.40</td><td>Years of school <i>attendance</i>, for deworming in general, not learning: see the caveat.</td></tr>
+    <tr><td>2</td><td>Youth Impact</td><td>$29.41</td><td>The only figure in learning-adjusted years (LAYS).</td></tr>
+    <tr><td>3</td><td>CAMFED</td><td>$58.82</td><td>Years of schooling converted from test scores (2018).</td></tr>
+    <tr><td>—</td><td>Pratham</td><td>Can't compute</td><td>Only an "up to 4 LAYS per $100" upper bound exists.</td></tr>
+    <tr><td>—</td><td>Educate Girls</td><td>Can't compute</td><td>No years-of-learning figure published.</td></tr>
+  </table>
+  <h3>How to score each round</h3>
+  <ul>
+    <li><b>#1 correct:</b> One Acre Fund (Set A) or Deworm the World (Set B). Note any reasonable alternative with its reason.</li>
+    <li><b>Order:</b> how many of the computable charities are in the right order (out of 4 for Set A, 3 for Set B).</li>
+    <li><b>Unknowns flagged:</b> did they say BRAC (Set A), or Pratham and Educate Girls (Set B), have no reliable number?</li>
+    <li><b>Sourced:</b> did they name where the #1 number came from?</li>
+  </ul>
+  <h3>Record the results in <code>docs/user_test/results.json</code></h3>
+  <p style="font-size:13px">Set <code>"completed": true</code> and fill in each field. Leave anything you didn't measure as <code>null</code>. Never fill a blank with a guess. Then rebuild with <code>tools/build_docs.py</code>. The report's "Real user test" box becomes a results section, and slide 9 picks up the times and the quote.</p>
+</div>
+
+</body>
+</html>
