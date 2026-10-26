@@ -1,5 +1,7 @@
 # Dollar for Good: a charity impact tool
 
+Repo: https://github.com/MT-bit-design/dollar-for-good
+
 A donor picks a cause (**health**, **poverty and cash transfers**, **education**, or **climate**) and sees charities ranked by how much good each dollar does, in the right unit for that cause:
 
 | Cause | Unit | Better is |
