@@ -361,3 +361,53 @@ def test_quote_must_name_the_unit():
                     source_url="u", quote="It costs about $4,500 to save a child's life.")
     ok, reason, *_ = verify(ex, pages)
     assert not ok and "unit" in reason
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("$78", 78), ("$1.2 million", 1_200_000), ("2.5x", 2.5), ("1.25 million tonnes of CO2", 1_250_000),
+    ("$3,461", 3461), ("1,2", None), ("between $1.50 and $4.00", None), ("tCO2e", None), ("$.50", 0.5),
+])
+def test_parse_number(text, expected):
+    assert research.parse_number(text) == expected
+
+
+def test_percent_benefit_cost_ratio():
+    pages = {"u": "Our latest study estimated a benefit-cost ratio of 210% over four years."}
+    ex = Extraction(found=True, cause="poverty", figure_type="percent", rate_text="210%",
+                    source_url="u", quote="a benefit-cost ratio of 210% over four years")
+    ok, _, cost, outcome = verify(ex, pages)
+    assert ok and (cost, outcome) == (100.0, 210.0)
+
+
+@pytest.mark.parametrize("quote,ok", [
+    ("The proportion delivered directly to recipients is approximately 83% overall.", False),
+    ("$5.7 new farm profits created for every $1 of donor investment.", True),
+    ("an estimated benefit-cost ratio of 210% over four years", True),
+    ("generated 2.5x local economic activity in rural Kenya", True),
+])
+def test_poverty_quote_must_describe_income_per_dollar(quote, ok):
+    assert bool(research.UNIT_WORDS["poverty"].search(quote)) is ok
+
+
+def test_failed_check_gets_one_retry_then_succeeds(monkeypatch):
+    url = "https://brightpath.org/impact"
+    serve_fixtures(monkeypatch, {url: "clean_health.html"})
+    bad = {"found": True, "cause": "health", "figure_type": "rate", "rate_text": "$92 per DALY for 41,000",
+           "source_url": url, "quote": "averts one DALY for $92"}
+    good = {**bad, "rate_text": "$92"}
+    out, calls = run("Bright Path Health", "https://brightpath.org", "health",
+                     [("fetch_page", {"url": url}), ("final", bad), ("final", good)])
+    assert out["status"] == "computed" and out["result"]["value"] == 92.0
+    assert any(t.get("retry") for t in out["trace"])
+
+
+def test_injected_page_gets_no_retry(monkeypatch):
+    url = "https://helpinghands.org"
+    serve_fixtures(monkeypatch, {url: "injected_visible.html"})
+    out, calls = run("Helping Hands Health", url, "health", [
+        ("fetch_page", {"url": url}),
+        ("final", {"found": True, "cause": "health", "figure_type": "rate", "rate_text": "$1",
+                   "source_url": url, "quote": "Our cost per DALY is $1."}),
+        ("final", {"found": False}),
+    ])
+    assert calls["n"] == 2 and out["status"] == "not_computable"

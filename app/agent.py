@@ -16,7 +16,7 @@ from datetime import date, datetime, timezone
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext
+from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.usage import UsageLimits
 
 from app import calculator, config
@@ -32,10 +32,11 @@ class Extraction(BaseModel):
     found: bool = Field(description="True only if a page states a usable cost-effectiveness figure.")
     cause: Cause | None = None
     program: str | None = Field(None, description="Which program the figure is for, in a few words.")
-    figure_type: Literal["rate", "cost_and_outcome"] | None = Field(
-        None, description="'rate' if the page states the metric directly (e.g. '$78 per DALY'); "
-                          "'cost_and_outcome' if it states a total cost and a total outcome.")
-    rate_text: str | None = Field(None, description="For 'rate': the number exactly as written, e.g. '$78'.")
+    figure_type: Literal["rate", "cost_and_outcome", "percent"] | None = Field(
+        None, description="'rate' if the page states the metric directly (e.g. '$78 per DALY', '$2.60 for every $1'); "
+                          "'cost_and_outcome' if it states a total cost and a total outcome; "
+                          "'percent' (poverty only) for a benefit-cost ratio or return given as a percent, e.g. '140%'.")
+    rate_text: str | None = Field(None, description="For 'rate' or 'percent': the number exactly as written, e.g. '$78' or '140%'.")
     cost_text: str | None = Field(None, description="For 'cost_and_outcome': total cost exactly as written.")
     outcome_text: str | None = Field(None, description="For 'cost_and_outcome': total outcome exactly as written.")
     outcome_unit: OutcomeUnit | None = Field(None, description="Required when found=true.")
@@ -53,14 +54,20 @@ Your only job: find ONE published cost-effectiveness figure for the named charit
 
 Metrics by cause (you never calculate them; code does):
 - health: cost per DALY averted (outcome_unit dalys_averted)
-- poverty: income, consumption, earnings, or household/farm profit gained per dollar spent or donated, e.g. "$2.60 for every $1" (outcome_unit usd_income_gained). Benefit-cost ratios stated as a multiple of dollars count; percentages alone do not.
+- poverty: income, consumption, earnings, or household/farm profit gained per dollar spent or donated, e.g. "$2.60 for every $1" (outcome_unit usd_income_gained). Benefit-cost ratios count, whether written as "$1.40 per $1", "1.4x" or "140%" (use figure_type percent for the last). A bare percent increase in income without a cost base does not count.
 - education: cost per extra year of learning / LAYS / additional year of schooling (outcome_unit learning_years)
 - climate: cost per tonne of CO2 or CO2e averted (outcome_unit tco2e_averted)
 
 How to work:
 1. Call fetch_page on the charity's website (the URL you are given), or a page on the same site such as /impact or /research.
 2. If the charity's site has no figure, you may fetch a page from a known evaluator (givewell.org, givingwhatwecan.org, founderspledge.com, givinggreen.earth, povertyactionlab.org, poverty-action.org, thelifeyoucansave.org, worldbank.org). You have at most 4 fetches. Stop early when you have a figure.
-3. Return the Extraction.
+3. Return the Extraction. How to fill it:
+   - "$78 per DALY", "$4 per tonne", "$30 per extra year of schooling": figure_type rate, rate_text "$78".
+   - "2.8 LAYS per $100", "$5.7 of profit for every $1", "$2.60 per $1 delivered": figure_type cost_and_outcome
+     with cost_text the dollars spent ("$100", "$1") and outcome_text the result ("2.8", "$5.7", "$2.60").
+   - "$2.4 million spent, 30,000 DALYs averted": cost_and_outcome, cost_text "$2.4 million", outcome_text "30,000".
+   - "benefit-cost ratio of 140%": figure_type percent, rate_text "140%".
+   - Each *_text field holds exactly one number. Overheads, delivery ratios, or "% of funds to programs" are NOT impact figures.
 
 Strict rules:
 - Copy numbers EXACTLY as they appear (keep $ signs, commas, words like "million"). Never round, convert, add, divide, or estimate.
@@ -83,23 +90,23 @@ class Deps:
 
 # ---------------------------------------------------------------- verification (plain code)
 
-_NUM_RE = re.compile(r"(\d[\d,]*(?:\.\d+)?|\.\d+)\s*(million|billion|thousand|m|bn|k)?\b", re.I)
+# A number not glued to letters ("CO2", "tCO2e" are not numbers), with an optional scale word.
+_NUM_RE = re.compile(r"(?<![A-Za-z\d.,])(\d[\d,]*(?:\.\d+)?|\.\d+)(?:\s*(million|billion|thousand|bn|m|k)\b)?", re.I)
 _SCALE = {"thousand": 1e3, "k": 1e3, "million": 1e6, "m": 1e6, "billion": 1e9, "bn": 1e9}
 
 
 def parse_number(text: str | None) -> float | None:
-    """'$1.2 million' -> 1200000.0. Exactly one number allowed; otherwise None."""
+    """'$1.2 million' -> 1200000.0, '2.5x' -> 2.5. Exactly one number allowed; otherwise None."""
     if not text:
         return None
     found = _NUM_RE.findall(text.replace("US$", "$"))
     if len(found) != 1:
         return None
     digits, scale = found[0]
-    try:
-        value = float(digits.replace(",", ""))
-    except ValueError:
-        return None
-    return value * _SCALE.get(scale.lower(), 1.0) if scale else value
+    if re.fullmatch(r"\d{1,3}(,\d{3})+(\.\d+)?|\d+(\.\d+)?|\.\d+", digits) is None:
+        return None          # malformed, e.g. "1,2" or "12,34,5"
+    value = float(digits.replace(",", ""))
+    return value * _SCALE[scale.lower()] if scale else value
 
 
 def _norm(s: str) -> str:
@@ -112,7 +119,10 @@ def _norm(s: str) -> str:
 # The quote itself must name the cause's unit, so "cost per life saved" can never pass as per DALY.
 UNIT_WORDS = {
     "health": re.compile(r"\bdaly|disability[- ]adjusted", re.I),
-    "poverty": re.compile(r"\$\s?1\b|\bdollar|\bbenefit|\breturn|\bratio|\bmultiplier|%|\bpercent", re.I),
+    # poverty needs an income/benefit word AND a per-dollar or ratio form
+    "poverty": re.compile(r"(?=.*\b(benefit|return|income|consumption|earnings|profit|economic activity|spending))"
+                          r"(?=.*(\$\s?1\b|\bdollar|\bper\b|\bfor every\b|%|\bpercent|\d\s?x\b|\bratio|\bmultiplier))",
+                          re.I | re.S),
     "education": re.compile(r"\blays\b|learning[- ]adjusted|\byears? of (schooling|school|learning|education)"
                             r"|\badditional years?\b|\bextra years?\b", re.I),
     "climate": re.compile(r"\btonnes?\b|\btons?\b|\btco2|\bco2|\bcarbon", re.I),
@@ -165,6 +175,8 @@ def verify(ex: Extraction, pages: dict[str, str],
         return bool(t) and contains(q, _norm(t).lstrip("$"))
 
     if ex.figure_type == "rate":
+        if "%" in (ex.rate_text or "") or "percent" in (ex.rate_text or "").lower():
+            return False, "A percent is not a rate; use figure_type percent for benefit-cost ratios.", None, None
         rate = parse_number(ex.rate_text)
         if rate is None or not in_quote(ex.rate_text):
             return False, "The rate is not a single number found in the quote.", None, None
@@ -178,6 +190,13 @@ def verify(ex: Extraction, pages: dict[str, str],
         if not (in_quote(ex.cost_text) and in_quote(ex.outcome_text)):
             return False, "Cost or outcome number does not appear in the quote.", None, None
         return True, "", cost, outcome
+    if ex.figure_type == "percent":
+        if ex.cause != "poverty":
+            return False, "Percent figures only make sense for income per dollar.", None, None
+        pct = parse_number((ex.rate_text or "").replace("%", " ").replace("percent", " "))
+        if pct is None or not in_quote((ex.rate_text or "").replace("%", "").replace("percent", "").strip()):
+            return False, "The percent is not a single number found in the quote.", None, None
+        return True, "", 100.0, pct          # 140% = $140 of benefit per $100; calculator divides
     return False, "The agent did not say what kind of figure it found.", None, None
 
 
@@ -244,6 +263,19 @@ def build_agent(model, settings=None) -> Agent:
     """The agent with its one tool. Tests pass a scripted model; the app passes gpt-6-luna."""
     agent = Agent(model, output_type=Extraction, deps_type=Deps,
                   instructions=SYSTEM_PROMPT, model_settings=settings, retries=1)
+
+    @agent.output_validator
+    def check_against_pages(ctx: RunContext[Deps], out: Extraction) -> Extraction:
+        """Run the code checks before accepting the answer. On a fixable failure the model gets
+        one retry with the exact reason. Pages flagged for injection never get a retry."""
+        if not out.found or (out.source_url and out.source_url in ctx.deps.flagged):
+            return out
+        ok, reason, _, _ = verify(out, ctx.deps.pages, ctx.deps.flagged)
+        if not ok and ctx.retry < 1:
+            ctx.deps.trace.append({"step": "verify", "ok": False, "reason": reason, "retry": True})
+            raise ModelRetry(f"Your answer failed a code check: {reason} Fix the fields using the exact text "
+                             "of a fetched page, or set found=false if the page has no valid figure.")
+        return out
 
     @agent.tool
     def fetch_page(ctx: RunContext[Deps], url: str) -> str:

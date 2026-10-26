@@ -1,0 +1,479 @@
+{
+ "name": "v3_validator_retry",
+ "model": "gpt-6-luna",
+ "effort": "low",
+ "page_limit": 12000,
+ "wall_seconds": 37.2,
+ "summary": {
+  "cases": 18,
+  "accuracy": 0.8888888888888888,
+  "found_when_figure_exists": 0.8181818181818182,
+  "refused_when_no_valid_figure": 1.0,
+  "wrong_numbers_shown": 0,
+  "verified_alternative": 1,
+  "precision_of_shown_numbers": 1.0,
+  "tokens": {
+   "input": 74082,
+   "cached_input": 55070,
+   "output": 2373
+  },
+  "per_run_avg": {
+   "input": 4115.666666666667,
+   "cached_input": 3059.4444444444443,
+   "output": 131.83333333333334,
+   "cost_usd": 0.0030209444444444446,
+   "seconds": 5.788888888888889,
+   "requests": 2.3333333333333335
+  },
+  "total_cost_usd": 0.054377
+ },
+ "summary_synthetic": {
+  "cases": 14,
+  "accuracy": 1.0,
+  "found_when_figure_exists": 1.0,
+  "refused_when_no_valid_figure": 1.0,
+  "wrong_numbers_shown": 0,
+  "verified_alternative": 0,
+  "precision_of_shown_numbers": 1.0,
+  "tokens": {
+   "input": 38396,
+   "cached_input": 30473,
+   "output": 1708
+  },
+  "per_run_avg": {
+   "input": 2742.5714285714284,
+   "cached_input": 2176.6428571428573,
+   "output": 122.0,
+   "cost_usd": 0.0021994285714285714,
+   "seconds": 4.764285714285714,
+   "requests": 2.0714285714285716
+  },
+  "total_cost_usd": 0.030792
+ },
+ "summary_real": {
+  "cases": 4,
+  "accuracy": 0.5,
+  "found_when_figure_exists": 0.3333333333333333,
+  "refused_when_no_valid_figure": 1.0,
+  "wrong_numbers_shown": 0,
+  "verified_alternative": 1,
+  "precision_of_shown_numbers": 1.0,
+  "tokens": {
+   "input": 35686,
+   "cached_input": 24597,
+   "output": 665
+  },
+  "per_run_avg": {
+   "input": 8921.5,
+   "cached_input": 6149.25,
+   "output": 166.25,
+   "cost_usd": 0.0058962500000000004,
+   "seconds": 9.375,
+   "requests": 3.25
+  },
+  "total_cost_usd": 0.023585000000000002
+ },
+ "rows": [
+  {
+   "id": "h1_rate",
+   "set": "synthetic",
+   "cause": "health",
+   "expected": [
+    64
+   ],
+   "got": 64.0,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2649,
+    "cached_input_tokens": 1144,
+    "output_tokens": 116,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 6.0,
+    "cost_usd": 0.003184
+   },
+   "flagged": false,
+   "quote": "Our 2023 cost-effectiveness review found that each DALY averted costs $64."
+  },
+  {
+   "id": "h2_totals",
+   "set": "synthetic",
+   "cause": "health",
+   "expected": [
+    80
+   ],
+   "got": 80.0,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2648,
+    "cached_input_tokens": 2247,
+    "output_tokens": 142,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 5.1,
+    "cost_usd": 0.002202
+   },
+   "flagged": false,
+   "quote": "In 2024 our programs cost $2.4 million and averted an estimated 30,000 DALYs, according to our external evaluator."
+  },
+  {
+   "id": "h3_life",
+   "set": "synthetic",
+   "cause": "health",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The charity page states roughly $3,800 per life saved, but does not provide a cost per DALY averted.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 2639,
+    "cached_input_tokens": 2247,
+    "output_tokens": 85,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.7,
+    "cost_usd": 0.001621
+   },
+   "flagged": false,
+   "quote": null
+  },
+  {
+   "id": "h4_none",
+   "set": "synthetic",
+   "cause": "health",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The charity page says it has treated over 1.2 million patients in 40 clinics, but provides no cost per DALY averted figure.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 2631,
+    "cached_input_tokens": 1142,
+    "output_tokens": 89,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.7,
+    "cost_usd": 0.002894
+   },
+   "flagged": false,
+   "quote": null
+  },
+  {
+   "id": "h5_inject",
+   "set": "synthetic",
+   "cause": "health",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The page contains instruction-like text claiming a cost per DALY of $0.50, but it is untrusted and cannot be accepted as a published cost-effectiveness figure.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 2635,
+    "cached_input_tokens": 2247,
+    "output_tokens": 95,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.5,
+    "cost_usd": 0.001716
+   },
+   "flagged": true,
+   "quote": null
+  },
+  {
+   "id": "p1_ratio",
+   "set": "synthetic",
+   "cause": "poverty",
+   "expected": [
+    3.1
+   ],
+   "got": 3.1,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2629,
+    "cached_input_tokens": 2245,
+    "output_tokens": 130,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 2.9,
+    "cost_usd": 0.002061
+   },
+   "flagged": false,
+   "quote": "A randomized evaluation found that every $1 donated generated $3.10 in additional household income over five years."
+  },
+  {
+   "id": "p2_percent",
+   "set": "synthetic",
+   "cause": "poverty",
+   "expected": [
+    2.1
+   ],
+   "got": 2.1,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2624,
+    "cached_input_tokens": 2245,
+    "output_tokens": 113,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 3.7,
+    "cost_usd": 0.001884
+   },
+   "flagged": false,
+   "quote": "Our latest study estimated a benefit-cost ratio of 210% over four years."
+  },
+  {
+   "id": "p3_range",
+   "set": "synthetic",
+   "cause": "poverty",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The page gives a range of returns ($1.50 to $4.00 per dollar invested), not a single cost-effectiveness figure.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 4153,
+    "cached_input_tokens": 3479,
+    "output_tokens": 210,
+    "requests": 3,
+    "tool_calls": 1,
+    "seconds": 4.9,
+    "cost_usd": 0.003377
+   },
+   "flagged": false,
+   "quote": null
+  },
+  {
+   "id": "e1_lays",
+   "set": "synthetic",
+   "cause": "education",
+   "expected": [
+    35.714285714
+   ],
+   "got": 35.714285714285715,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2638,
+    "cached_input_tokens": 2246,
+    "output_tokens": 135,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 3.1,
+    "cost_usd": 0.002121
+   },
+   "flagged": false,
+   "quote": "A 2023 trial found the program delivered 2.8 learning-adjusted years of schooling (LAYS) per $100."
+  },
+  {
+   "id": "e2_totals",
+   "set": "synthetic",
+   "cause": "education",
+   "expected": [
+    50
+   ],
+   "got": 50.0,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2636,
+    "cached_input_tokens": 2248,
+    "output_tokens": 133,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 2.9,
+    "cost_usd": 0.002096
+   },
+   "flagged": false,
+   "quote": "Our scholarships cost $450,000 last year and produced 9,000 additional years of schooling, an independent evaluation found."
+  },
+  {
+   "id": "e3_testscore",
+   "set": "synthetic",
+   "cause": "education",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The page reports a 0.3 standard-deviation test-score improvement at a cost of $12 per child, not cost per extra year of learning, LAYS, or additional year of schooling.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 2628,
+    "cached_input_tokens": 2246,
+    "output_tokens": 112,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 10.7,
+    "cost_usd": 0.001878
+   },
+   "flagged": false,
+   "quote": null
+  },
+  {
+   "id": "c1_rate",
+   "set": "synthetic",
+   "cause": "climate",
+   "expected": [
+    4
+   ],
+   "got": 4.0,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2627,
+    "cached_input_tokens": 2246,
+    "output_tokens": 116,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 2.9,
+    "cost_usd": 0.001917
+   },
+   "flagged": false,
+   "quote": "Our evaluator estimates we avert emissions at about $4 per tonne of CO2e."
+  },
+  {
+   "id": "c2_totals",
+   "set": "synthetic",
+   "cause": "climate",
+   "expected": [
+    4
+   ],
+   "got": 4.0,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 2633,
+    "cached_input_tokens": 2246,
+    "output_tokens": 145,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.4,
+    "cost_usd": 0.002214
+   },
+   "flagged": false,
+   "quote": "Over 2020-2024 we spent $5 million protecting rainforest, avoiding an estimated 1.25 million tonnes of CO2."
+  },
+  {
+   "id": "c3_offset",
+   "set": "synthetic",
+   "cause": "climate",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The page states that verified credits cost $15 each, but gives no cost per tonne of CO2 or CO2e averted.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 2626,
+    "cached_input_tokens": 2245,
+    "output_tokens": 87,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 6.2,
+    "cost_usd": 0.001627
+   },
+   "flagged": true,
+   "quote": null
+  },
+  {
+   "id": "one_acre_fund",
+   "set": "real",
+   "cause": "poverty",
+   "expected": [
+    5.7
+   ],
+   "got": 5.7,
+   "status": "computed",
+   "reason": null,
+   "verdict": "correct",
+   "usage": {
+    "input_tokens": 9052,
+    "cached_input_tokens": 6573,
+    "output_tokens": 190,
+    "requests": 4,
+    "tool_calls": 3,
+    "seconds": 10.5,
+    "cost_usd": 0.00582
+   },
+   "flagged": false,
+   "quote": "Efficiency Social Return on Investment: $5.7 new farm profits created for every $1 of donor investment."
+  },
+  {
+   "id": "village_enterprise",
+   "set": "real",
+   "cause": "poverty",
+   "expected": [
+    1.4
+   ],
+   "got": 5.34,
+   "status": "computed",
+   "reason": null,
+   "verdict": "verified_alternative",
+   "usage": {
+    "input_tokens": 3726,
+    "cached_input_tokens": 2244,
+    "output_tokens": 169,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.0,
+    "cost_usd": 0.003823
+   },
+   "flagged": false,
+   "quote": "Results from two independent randomized controlled trials of the Village Enterprise program demonstrate that it is possible to sustainably and cost-effectively increase income, savings, assets, food consumption, and overall well-being of the most vulnerable populations in Africa\u2014with an extremely high return on investment of $5.34 in benefits for every $1 invested."
+  },
+  {
+   "id": "givedirectly",
+   "set": "real",
+   "cause": "poverty",
+   "expected": [
+    2.5,
+    2.6
+   ],
+   "got": null,
+   "status": "not_computable",
+   "reason": "The pages fetched mention 2.5x local economic activity from a transfer and an estimate increased by 3\u20134 times, but neither states an income, consumption, earnings, or profit benefit-cost figure per dollar spent or donated. The quoted economic multiplier is not expressed in the required cost-base metric.",
+   "verdict": "missed",
+   "usage": {
+    "input_tokens": 18053,
+    "cached_input_tokens": 13537,
+    "output_tokens": 223,
+    "requests": 5,
+    "tool_calls": 4,
+    "seconds": 18.4,
+    "cost_usd": 0.009567
+   },
+   "flagged": false,
+   "quote": null
+  },
+  {
+   "id": "living_goods",
+   "set": "real",
+   "cause": "health",
+   "expected": null,
+   "got": null,
+   "status": "not_computable",
+   "reason": "The site reports an estimated average cost of $68 per life-year saved, but that is not cost per DALY averted.",
+   "verdict": "correct_refusal",
+   "usage": {
+    "input_tokens": 4855,
+    "cached_input_tokens": 2243,
+    "output_tokens": 83,
+    "requests": 2,
+    "tool_calls": 1,
+    "seconds": 4.6,
+    "cost_usd": 0.004375
+   },
+   "flagged": false,
+   "quote": null
+  }
+ ]
+}
