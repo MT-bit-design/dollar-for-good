@@ -21,14 +21,18 @@ A funder can also upload the charities they fund (CSV) and see where each one si
 
 You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model `gpt-6-luna`). Without a key, the donor view and the portfolio view still work for every charity in the sourced table. Only the research agent is turned off.
 
-1. **Get the code** and open a terminal in the project folder.
+1. **Get the code** and open a terminal **inside the project folder** (the one with `run.py` in it). Every command below must be run from there:
+   ```
+   cd path	o\dollar-for-good
+   ```
+   If you see `The module '.venv' could not be loaded` or `No such file`, you are in the wrong folder.
 
 2. **Make a virtual environment and install the packages.**
 
    Windows (PowerShell or Command Prompt):
    ```
    python -m venv .venv
-   .venv\Scripts\python.exe -m pip install -r requirements.txt
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
    macOS / Linux:
    ```
@@ -45,7 +49,7 @@ You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model
 
 4. **Start the app.**
    ```
-   .venv\Scripts\python.exe run.py        (Windows)
+   .\.venv\Scripts\python.exe run.py      (Windows)
    .venv/bin/python run.py                (macOS / Linux)
    ```
    Open **http://127.0.0.1:8000**. The footer shows whether the key was found.
