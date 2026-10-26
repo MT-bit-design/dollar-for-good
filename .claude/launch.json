@@ -1,6 +1,0 @@
-{
-  "version": "0.0.1",
-  "configurations": [
-    { "name": "dollar-for-good", "runtimeExecutable": ".venv/Scripts/python.exe", "runtimeArgs": ["run.py"], "port": 8000 }
-  ]
-}

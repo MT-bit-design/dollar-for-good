@@ -51,8 +51,9 @@
     table { font-size: 12.5px; }
     h2 { margin-top: 30px; }
     figure img { max-height: 5.2in; }
-    figure.tall img { max-height: 4.4in; }
-    pre { font-size: 9.5px; }
+    figure.tall img { max-height: 3.2in; }
+    pre { font-size: 8.6px; line-height: 1.32; }
+    .refs li { font-size: 11.5px; margin-bottom: 1px; line-height: 1.35; }
   }
   @page { size: letter; margin: 0.6in; }
 </style>
@@ -97,7 +98,7 @@
 <p>I compared the tool with what already exists:</p>
 <table>
   <tr><th>Product</th><th>What it does well (quoted from its own pages)</th><th>What this tool adds</th></tr>
-  <tr><td><b>GiveWell</b></td><td>Detailed estimates for its four top charities, for example "an estimated average cost-effectiveness of $5,500 per life saved" (top charities page, last updated September 2025). Its Top Charities Fund supports "global health and development programs".</td><td>Rankings in each cause's own unit across four causes, including education and climate. Checks a funder's own list. Researches charities that are not on an evaluator's list, with checked quotes.</td></tr>
+  <tr><td><b>GiveWell</b></td><td>Detailed estimates for its four top charities, for example "an estimated average cost-effectiveness of $5,500 per life saved" for bed nets (top charities page, last updated September 2025). That is an average for one top charity's program; the roughly $8,000 in Section 2 is the marginal cost of the next dollar given through GiveWell's fund, so the two answer different questions. Its Top Charities Fund supports "global health and development programs".</td><td>Rankings in each cause's own unit across four causes, including education and climate. Checks a funder's own list. Researches charities that are not on an evaluator's list, with checked quotes.</td></tr>
   <tr><td><b>Charity Navigator</b></td><td>Over 230,000 rated organizations, over 3,000 of them on Impact &amp; Measurement (Wikipedia, as of June 2024). It acquired ImpactMatters in October 2020. Its impact metric "evaluates eligible charities on cost-effectiveness" and reports whether a program "is highly cost-effective, cost-effective or not cost-effective".</td><td>The number itself, in the cause's unit (cost per DALY, per tonne), with its source quote, a published range where one exists, and a sourced benchmark to compare against.</td></tr>
   <tr><td><b>Giving Green and Founders Pledge</b></td><td>Expert estimates for climate charities, for example Giving Green's "$0.54 per metric ton of CO2e" for Evergreen Collaborative (2022) and Founders Pledge's "USD 1/tCO2e" for Clean Air Task Force (2021).</td><td>These estimates side by side, in one unit and against one benchmark, next to the other causes, and applied to a funder's own grants.</td></tr>
   <tr><td><b>Giving What We Can</b></td><td>"We base our recommendations on the research of independent, impact-focused charity evaluators" (2026 recommendations page).</td><td>Its older charity reports stay online but, in its own words, "we are not updating them and the information may therefore be out of date" (2016 AMF report). This tool shows every number's date, so old figures are easy to spot.</td></tr>
@@ -205,7 +206,7 @@
 
 <h3>One real run, step by step</h3>
 <p>Here is a live run from the app (26 Oct 2026). A donor asks about <b>One Acre Fund</b>, website <code>oneacrefund.org</code>, cause <i>Poverty</i>.</p>
-<figure>
+<figure class="tall">
   <img src="{{img:research_run}}" alt="Live research run for One Acre Fund">
   <figcaption>Figure 3. The research panel after a real run. The trace shows every page fetch, including a failed guess, and the code check. The token counts and cost are the app's own measurement of this run.</figcaption>
 </figure>
@@ -351,13 +352,14 @@
 <h3>What doesn't work yet</h3>
 <ul>
   <li><b>The sourced table is small:</b> 21 charities, 13 with usable numbers, and 7 of 9 benchmarks sourced. Many well-known charities only publish cost per life saved, which by design we do not convert to DALYs.</li>
-  <li><b>Sources are not like for like.</b> Estimates differ by evaluator, year, method and dollar year. The AMF figure is from 2016. Climate advocacy estimates are highly uncertain expected values (their authors say to compare them only by order of magnitude), and comparing them with the social cost of carbon gives very large multiples. The app shows a caveat for each cause, but a ranking can still look more precise than it is.</li>
+  <li><b>Sources are not like for like.</b> Estimates differ by evaluator, year, method and dollar year. The AMF figure is from 2016. Climate advocacy estimates are highly uncertain expected values (their authors say to compare them only by order of magnitude). In the app's climate table, the three policy-advocacy charities show 190x to 352x the benchmark: that compares an advocacy estimate with a damage-cost benchmark (the EPA's $190 estimate of the harm from one tonne of CO2), not with another charity, so it says the estimates sit far below the damage cost, not that one charity is hundreds of times better than another. The app shows a caveat for each cause, but a ranking can still look more precise than it is.</li>
   <li><b>It favors what is easy to measure.</b> Policy change and AI safety are hard to put a number on, so they can't be ranked here. The app says so on its first screen, but a ranking still draws attention toward measurable causes.</li>
-  <li><b>The tool checks quotes, not truth.</b> A charity's self-reported figure passes if it is really on its site, as the Village Enterprise conflict shows.</li>
   <li><b>The agent's recall is 82%</b> when a valid figure exists. It sometimes refuses real figures, which is the safe direction to fail.</li>
   <li><b>The injection detector is pattern-based.</b> A clever attacker could phrase instructions that slip past it. The quote and unit checks still apply, but a page that simply <i>states</i> a false figure in normal language would pass.</li>
   <li><b>Not hosted online.</b> It runs locally, and dollar costs depend on placeholder token rates.</li>
 </ul>
+<h3>Who checks the impact numbers?</h3>
+<p>This was the user tester's sharpest question, and the honest answer is: not this tool. It proves that each quote is really on the page it came from, that the number is inside the quote and in the cause's unit, and it does the math in code. It cannot prove that the figure is true. The figures in the table come from different kinds of source: independent evaluators (Giving Green, Founders Pledge, J-PAL), peer-reviewed studies (the cash-transfer multiplier is from Egger et al. in <i>Econometrica</i>; the Malaria Consortium figure is peer-reviewed but written by the charity's own staff), and the charities themselves (One Acre Fund and Village Enterprise report their own figures, and Village Enterprise's own pages disagree with each other). Today the app shows each number's source and notes, but it does not label which kind of source it is. Adding that label is the first next step.</p>
 <h3>With another month</h3>
 <ol>
   <li><b>Trust tags (first, because the user test asked for it):</b> tag each figure by who produced it (independent evaluation, peer-reviewed study, or self-reported), so users can see how much weight each number deserves, and let them filter by it. This answers the tester's question of who verifies the numbers charities report.</li>

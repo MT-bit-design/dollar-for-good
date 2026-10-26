@@ -8,3 +8,4 @@ __pycache__/
 output/*.jsonl
 output/*.log
 output/agent_cache.json
+.claude/
