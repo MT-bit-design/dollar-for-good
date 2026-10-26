@@ -5,7 +5,7 @@
       "id": "angrist_2020_top_approaches",
       "label": "Top education approaches (~3 LAYS per $100), Angrist et al. 2020",
       "role": "primary",
-      "value": 33.33,
+      "value": null,
       "unit": "usd_per_learning_year",
       "status": "sourced",
       "source_url": "https://cgdev.org/sites/default/files/how-improve-education-outcomes-most-efficiently-comparison-150-interventions-using-new.pdf",
@@ -14,7 +14,12 @@
       "source_date": "2020-10",
       "accessed": "2026-10-26",
       "quote": "some policies that improve the productivity of each year of schooling, such as targeting instruction to a child's learning level or structured lesson plans, can yield on average of around 3 additional LAYS per $100.",
-      "notes": "Source states the figure as LAYS per $100 (cost_usd 100, outcome 3 LAYS); the source does NOT state a cost per single LAYS. value = 100 / 3 = 33.33 is my own simple division of two numbers in the same quoted sentence. 'around 3' is approximate and is an average for the best-performing categories (targeted instruction, structured pedagogy), so it is a demanding 'good buy' bar rather than a typical-spending bar. Costs in this literature are in 2015 USD (per the GEEAP 2023 appendix, which built on this paper); not inflation-adjusted here. Abstract also says top programs deliver 'the equivalent of three additional years of high-quality schooling ... for just $100 per child'. PDF downloaded directly (fetched with curl because the tool's PDF parser could not read it) and text extracted locally."
+      "notes": "Source states ~3 LAYS per $100 for the best approaches (targeted instruction, structured lesson plans). Stored as inputs $100 / 3 LAYS; the app's calculator computes cost per LAYS. 'around 3' is approximate and is an average of top-performing categories, so this is a demanding bar.",
+      "inputs": {
+        "cost_usd": 100,
+        "outcome_amount": 3,
+        "outcome_unit": "learning_years"
+      }
     },
     {
       "cause": "education",
@@ -88,7 +93,11 @@
       "cause": "education",
       "website": "https://www.youth-impact.org",
       "program": "Low-tech phone call + SMS math tutoring (ConnectEd); figure from the IPA-supported Philippines scale-up/replication",
-      "inputs": {"cost_usd": 100, "outcome_amount": 3.4, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": 100,
+        "outcome_amount": 3.4,
+        "outcome_unit": "learning_years"
+      },
       "status": "sourced",
       "source_url": "https://poverty-action.org/building-resilient-education-systems-cost-effective-mobile-tutoring-philippines-and-beyond",
       "source_title": "Building Resilient Education Systems: Cost-effective Mobile Tutoring in the Philippines and Beyond",
@@ -104,7 +113,11 @@
       "cause": "education",
       "website": "https://camfed.org",
       "program": "Bursaries plus learning support (study guides, Learner Guide mentors) for marginalised girls in Tanzanian secondary schools",
-      "inputs": {"cost_usd": 100, "outcome_amount": 1.7, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": 100,
+        "outcome_amount": 1.7,
+        "outcome_unit": "learning_years"
+      },
       "status": "sourced",
       "source_url": "https://www.educ.cam.ac.uk/centres/real/downloads/REAL Policy Brief Cost-effectiveness Camfed A4_FINAL.pdf",
       "source_title": "Cost-effectiveness with equity: Raising learning for marginalised girls through Camfed's programme in Tanzania (Research and Policy Paper 18/2)",
@@ -118,9 +131,13 @@
       "id": "deworm_the_world",
       "name": "Evidence Action - Deworm the World Initiative (school-based deworming)",
       "cause": "education",
-      "website": "https://www.evidenceaction.org/programs/deworm-the-world",
+      "website": "https://www.evidenceaction.org",
       "program": "Mass school-based deworming; schooling effect estimated from the Kenya Primary School Deworming Project",
-      "inputs": {"cost_usd": 100, "outcome_amount": 11.9, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": 100,
+        "outcome_amount": 11.9,
+        "outcome_unit": "learning_years"
+      },
       "status": "sourced",
       "source_url": "https://www.povertyactionlab.org/case-study/deworming-increase-school-attendance",
       "source_title": "Deworming to increase school attendance",
@@ -136,7 +153,11 @@
       "cause": "education",
       "website": "https://www.pratham.org",
       "program": "Grouping children by learning level rather than grade for basic reading/math (TaRL), India",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "learning_years"
+      },
       "status": "missing",
       "source_url": "https://cgdev.org/sites/default/files/how-improve-education-outcomes-most-efficiently-comparison-150-interventions-using-new.pdf",
       "source_title": "How to Improve Education Outcomes Most Efficiently? A Comparison of 150 Interventions Using the New Learning-Adjusted Years of Schooling Metric (CGD Working Paper 558)",
@@ -152,7 +173,11 @@
       "cause": "education",
       "website": "https://www.educategirls.ngo",
       "program": "Enrolment drives and remedial learning for girls in Rajasthan, India (incl. the 2015-2018 Development Impact Bond)",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "learning_years"
+      },
       "status": "missing",
       "source_url": "https://www.educategirls.ngo/dib/",
       "source_title": "World's First Education DIB | Educate Girls",
@@ -168,7 +193,11 @@
       "cause": "education",
       "website": "https://www.povertyactionlab.org",
       "program": "Cash payments conditional on school enrolment/attendance",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "learning_years"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "learning_years"
+      },
       "status": "missing",
       "source_url": "https://cgdev.org/sites/default/files/how-improve-education-outcomes-most-efficiently-comparison-150-interventions-using-new.pdf",
       "source_title": "How to Improve Education Outcomes Most Efficiently? A Comparison of 150 Interventions Using the New Learning-Adjusted Years of Schooling Metric (CGD Working Paper 558)",
@@ -184,7 +213,11 @@
       "cause": "climate",
       "website": "https://www.catf.us",
       "program": "Policy advocacy for neglected technologies (carbon capture, advanced nuclear, methane, etc.)",
-      "inputs": {"cost_usd": 1, "outcome_amount": 1, "outcome_unit": "tco2e_averted"},
+      "inputs": {
+        "cost_usd": 1,
+        "outcome_amount": 1,
+        "outcome_unit": "tco2e_averted"
+      },
       "status": "sourced",
       "source_url": "https://assets.ctfassets.net/x5sq5djrgbwu/7eEpX4UcKNEy6LUDhf2B05/679c7b8c6e993bb8c08ee0a948b815b5/A_guide_to_the_changing_landscape_of_high-impact_climate_philanthropy.pdf",
       "source_title": "A guide to the changing landscape of high-impact climate philanthropy",
@@ -198,9 +231,13 @@
       "id": "evergreen_collaborative",
       "name": "Evergreen Collaborative",
       "cause": "climate",
-      "website": "https://collaborative.evergreenaction.com",
+      "website": "https://www.evergreenaction.com",
       "program": "US climate policy development and advocacy (e.g., Clean Electricity Performance Program)",
-      "inputs": {"cost_usd": 0.54, "outcome_amount": 1, "outcome_unit": "tco2e_averted"},
+      "inputs": {
+        "cost_usd": 0.54,
+        "outcome_amount": 1,
+        "outcome_unit": "tco2e_averted"
+      },
       "status": "sourced",
       "source_url": "https://forum.effectivealtruism.org/posts/H3aKKezuaG4EZSsBu/climate-recommendations-in-ea-giving-green-and-founders",
       "source_title": "Climate Recommendations in EA: Giving Green and Founders Pledge",
@@ -216,7 +253,11 @@
       "cause": "climate",
       "website": "https://carbon180.org",
       "program": "US policy advocacy for carbon removal",
-      "inputs": {"cost_usd": 0.66, "outcome_amount": 1, "outcome_unit": "tco2e_averted"},
+      "inputs": {
+        "cost_usd": 0.66,
+        "outcome_amount": 1,
+        "outcome_unit": "tco2e_averted"
+      },
       "status": "sourced",
       "source_url": "https://forum.effectivealtruism.org/posts/H3aKKezuaG4EZSsBu/climate-recommendations-in-ea-giving-green-and-founders",
       "source_title": "Climate Recommendations in EA: Giving Green and Founders Pledge",
@@ -232,7 +273,11 @@
       "cause": "climate",
       "website": "https://www.coolearth.org",
       "program": "Partnering with rainforest communities to prevent deforestation",
-      "inputs": {"cost_usd": 1.34, "outcome_amount": 1, "outcome_unit": "tco2e_averted"},
+      "inputs": {
+        "cost_usd": 1.34,
+        "outcome_amount": 1,
+        "outcome_unit": "tco2e_averted"
+      },
       "status": "sourced",
       "source_url": "https://www.givingwhatwecan.org/report/cool-earth/",
       "source_title": "Cool Earth (charity report)",
@@ -248,7 +293,11 @@
       "cause": "climate",
       "website": "https://www.terrapraxis.org",
       "program": "Repowering coal plants with advanced heat sources; advanced nuclear advocacy",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "tco2e_averted"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "tco2e_averted"
+      },
       "status": "missing",
       "source_url": "",
       "source_title": "",

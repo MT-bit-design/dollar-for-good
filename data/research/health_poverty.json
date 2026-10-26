@@ -72,7 +72,11 @@
       "cause": "health",
       "website": "https://www.againstmalaria.com",
       "program": "Distribution of long-lasting insecticide-treated bed nets to prevent malaria",
-      "inputs": {"cost_usd": 78, "outcome_amount": 1, "outcome_unit": "dalys_averted"},
+      "inputs": {
+        "cost_usd": 78,
+        "outcome_amount": 1,
+        "outcome_unit": "dalys_averted"
+      },
       "status": "sourced",
       "source_url": "https://www.givingwhatwecan.org/reports/against-malaria-foundation",
       "source_title": "Against Malaria Foundation (charity report)",
@@ -88,7 +92,11 @@
       "cause": "health",
       "website": "https://www.malariaconsortium.org",
       "program": "Seasonal malaria chemoprevention (SMC) for young children; Nampula province, Mozambique, 2023 campaign",
-      "inputs": {"cost_usd": 130.16, "outcome_amount": 1, "outcome_unit": "dalys_averted"},
+      "inputs": {
+        "cost_usd": 130.16,
+        "outcome_amount": 1,
+        "outcome_unit": "dalys_averted"
+      },
       "status": "sourced",
       "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1186/s12936-025-05401-x&resultType=core&format=json",
       "source_title": "Seasonal malaria chemoprevention in northern Mozambique: a cost-effectiveness analysis (Malaria Journal 24; DOI 10.1186/s12936-025-05401-x)",
@@ -104,7 +112,11 @@
       "cause": "health",
       "website": "https://helenkellerintl.org",
       "program": "Vitamin A supplementation campaigns for children aged 6-59 months",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "dalys_averted"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "dalys_averted"
+      },
       "status": "missing",
       "source_url": "https://www.givewell.org/charities/top-charities",
       "source_title": "GiveWell's Top Charities",
@@ -120,7 +132,11 @@
       "cause": "health",
       "website": "https://www.newincentives.org",
       "program": "Conditional cash incentives for routine childhood vaccination in northern Nigeria",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "dalys_averted"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "dalys_averted"
+      },
       "status": "missing",
       "source_url": "https://www.givewell.org/charities/top-charities",
       "source_title": "GiveWell's Top Charities",
@@ -136,7 +152,11 @@
       "cause": "health",
       "website": "https://www.evidenceaction.org/programs/deworm-the-world",
       "program": "School-based mass deworming for soil-transmitted helminths and schistosomiasis",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "dalys_averted"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "dalys_averted"
+      },
       "status": "missing",
       "source_url": "https://www.founderspledge.com/research/evidence-action-deworm-the-world-initiative",
       "source_title": "Evidence Action's Deworm the World Initiative",
@@ -152,7 +172,11 @@
       "cause": "poverty",
       "website": "https://www.givedirectly.org",
       "program": "Unconditional cash transfers (~USD 1,000) to poor households, rural Kenya (GE study)",
-      "inputs": {"cost_usd": 1, "outcome_amount": 2.5, "outcome_unit": "usd_income_gained"},
+      "inputs": {
+        "cost_usd": 1,
+        "outcome_amount": 2.5,
+        "outcome_unit": "usd_income_gained"
+      },
       "status": "sourced",
       "source_url": "https://www.givedirectly.org/how-do-cash-transfers-impact-neighbors",
       "source_title": "New research results: How do cash transfers impact the people who don't receive them?",
@@ -168,7 +192,11 @@
       "cause": "poverty",
       "website": "https://villageenterprise.org",
       "program": "Microenterprise graduation program (business groups, cash grants, training), Kenya and Uganda; Development Impact Bond RCT",
-      "inputs": {"cost_usd": 1, "outcome_amount": 1.4, "outcome_unit": "usd_income_gained"},
+      "inputs": {
+        "cost_usd": 100,
+        "outcome_amount": 140,
+        "outcome_unit": "usd_income_gained"
+      },
       "status": "sourced",
       "source_url": "https://villageenterprise.org/blog/frequently-asked-questions-about-the-village-enterprise-development-impact-bond/",
       "source_title": "Frequently Asked Questions about the Village Enterprise Development Impact Bond",
@@ -176,7 +204,7 @@
       "source_date": "2022-04-11",
       "accessed": "2026-10-26",
       "quote": "Our three-year benefit-cost ratio (BCR) of 140% represents significant progress toward this goal.",
-      "notes": "Self-reported by the charity, based on the third-party (IDinsight) DIB RCT. 140% BCR recorded as $1.40 of benefit per $1 of program cost. The page does not define the calculation; benefits likely include household consumption/spending and net wealth (assets), not only income, measured over three years. Cost is program implementation cost, not necessarily total donated dollars. The same page says projected lifetime benefit is 'over five times the cost to implement the program' (a projection, not used)."
+      "notes": "Self-reported by the charity, based on the third-party (IDinsight) DIB RCT. 140% BCR recorded as $1.40 of benefit per $1 of program cost. The page does not define the calculation; benefits likely include household consumption/spending and net wealth (assets), not only income, measured over three years. Cost is program implementation cost, not necessarily total donated dollars. The same page says projected lifetime benefit is 'over five times the cost to implement the program' (a projection, not used). Stored as $100 cost -> $140 benefit (140%); the app's calculator divides."
     },
     {
       "id": "bandhan_tup_graduation",
@@ -184,15 +212,19 @@
       "cause": "poverty",
       "website": "https://bandhan.org",
       "program": "18-month ultra-poor graduation program (asset transfer, consumption support, training, coaching), West Bengal, India",
-      "inputs": {"cost_usd": 1455, "outcome_amount": 6298, "outcome_unit": "usd_income_gained"},
+      "inputs": {
+        "cost_usd": 1455,
+        "outcome_amount": 6298,
+        "outcome_unit": "usd_income_gained"
+      },
       "status": "sourced",
       "source_url": "https://poverty-action.org/study/graduating-ultra-poor-india",
       "source_title": "Graduating the Ultra Poor in India",
       "publisher": "Innovations for Poverty Action (study page for Banerjee et al. 2015, Science)",
       "source_date": "2015-06-03",
       "accessed": "2026-10-26",
-      "quote": "estimated benefits from consumption and asset growth amount to 2014 PPP US$6,298 per household, representing an overall 433 percent return.",
-      "notes": "Per household, in 2014 PPP USD; cost from the same page: 'total implementation and program costs to be US$330 per household (2014 PPP US$ 1,455)'. Both inputs are PPP-adjusted, so the ratio (about 4.33) is in PPP terms; at market exchange rates the cost was $330. Benefits are consumption plus asset growth (projected long-run), not only income. Per program cost, not per dollar donated. India site of the six-country Science 2015 RCT; the benefit-cost assumptions (duration, discount rate) were not checked in the paper itself."
+      "quote": "total implementation and program costs to be US$330 per household (2014 PPP US$ 1,455) … estimated benefits from consumption and asset growth amount to 2014 PPP US$6,298 per household, representing an overall 433 percent return.",
+      "notes": "Per household, in 2014 PPP USD; cost from the same page: 'total implementation and program costs to be US$330 per household (2014 PPP US$ 1,455)'. Both inputs are PPP-adjusted, so the ratio (about 4.33) is in PPP terms; at market exchange rates the cost was $330. Benefits are consumption plus asset growth (projected long-run), not only income. Per program cost, not per dollar donated. India site of the six-country Science 2015 RCT; the benefit-cost assumptions (duration, discount rate) were not checked in the paper itself. Quote joins two verbatim passages from the same page (cost, then benefits)."
     },
     {
       "id": "brac_ultra_poor_graduation",
@@ -200,7 +232,11 @@
       "cause": "poverty",
       "website": "https://www.brac.net",
       "program": "Ultra-poor graduation program: livestock/asset transfer, stipend, training and coaching, Bangladesh",
-      "inputs": {"cost_usd": null, "outcome_amount": null, "outcome_unit": "usd_income_gained"},
+      "inputs": {
+        "cost_usd": null,
+        "outcome_amount": null,
+        "outcome_unit": "usd_income_gained"
+      },
       "status": "missing",
       "source_url": "https://www.theigc.org/blogs/graduation-whats-next-ultra-poor-programmes",
       "source_title": "Graduation: What's next for ultra-poor programmes?",
@@ -216,7 +252,11 @@
       "cause": "poverty",
       "website": "https://oneacrefund.org",
       "program": "Smallholder farmer support: inputs on credit, training and market access in East Africa",
-      "inputs": {"cost_usd": 1, "outcome_amount": 5.7, "outcome_unit": "usd_income_gained"},
+      "inputs": {
+        "cost_usd": 1,
+        "outcome_amount": 5.7,
+        "outcome_unit": "usd_income_gained"
+      },
       "status": "sourced",
       "source_url": "https://oneacrefund.org/impact/",
       "source_title": "Our impact",
