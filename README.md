@@ -23,7 +23,7 @@ You need **Python 3.11 or newer** and a **`PORTKEY_API_KEY`** (course key, model
 
 1. **Get the code** and open a terminal **inside the project folder** (the one with `run.py` in it). Every command below must be run from there:
    ```
-   cd path	o\dollar-for-good
+   cd path\to\dollar-for-good
    ```
    If you see `The module '.venv' could not be loaded` or `No such file`, you are in the wrong folder.
 
